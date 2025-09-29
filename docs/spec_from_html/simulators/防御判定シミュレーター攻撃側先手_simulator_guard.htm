@@ -1,0 +1,29 @@
+<!-- Source: http://yuyutokubetsu.web.fc2.com/simulator_guard.htm -->
+<!-- Title: 防御判定シミュレーター(攻撃側先手) -->
+<!-- Downloaded: 2025-09-30 01:19:24 -->
+
+<html><head><title>防御判定シミュレーター(攻撃側先手)</title>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-83965520-3');</script><b>防御判定シミュレーター(攻撃側先手)</b><br><Br>※数値は10進数で入力して下さい。<br>
+※お互い闘気、バランスメーターが最大の状態で先手が攻撃、後手が防御行動を選択した場合の確率です。<Br><br><script type="text/javascript">var ioi=0;var kai=0;var re;var iob=0;z=0;var ina=0;var inb=0;var inc=0;var ind=0;var ine=0;var inf=0;var ing=0;var inh=0;var ini=0;function Calc(){while(ioi<65535){ioi=ioi+1;a=0;if(ioi>=1){a=z};g=0;b=a<<1;if(a>32787){c=parseInt(65535)-a+parseInt(1);b=a-c};d=b<<1;if(b>32787){e=parseInt(65535)-b+parseInt(1);d=b-e};f=parseInt(d)+1+parseInt(a);if(f>65535){f=f-65535-1;g=2};if(f>65535){f=f-65535-1};z=f;h=f>>1;x=f&1;if(g==2){h=h+parseInt(32768);g=0};if(x==1){g=2};j=h>>1;k=h&&1;if(g==2){j=j+parseInt(32768);g=0};k=j&127;l=k|128;aa=l;za=l;p=255;a=aa;l=document.form1.txtb.value;l=l*255;m=l&p;n=parseInt(l)-parseInt(m);o=n/256;l=o;l=l*256;m=l&p;n=parseInt(l)-parseInt(m);o=n/256;d=a*m;e=d&p;f=parseInt(d)-parseInt(e);f=f/256;g=a*o;h=g&p;i=parseInt(g)-parseInt(h);j=parseInt(f)+parseInt(h);k=parseInt(i)+parseInt(j);if(k>65535){k=k-parseInt(65535)-1};ab=k;ab=ab.toFixed(0);a=z;g=0;b=a<<1;if(a>32787){c=parseInt(65535)-a+parseInt(1);b=a-c};d=b<<1;if(b>32787){e=parseInt(65535)-b+parseInt(1);d=b-e};f=parseInt(d)+1+parseInt(a);if(f>65535){f=f-65535-1;g=2};if(f>65535){f=f-65535-1};z=f;h=f>>1;x=f&1;if(g==2){h=h+parseInt(32768);g=0};if(x==1){g=2};j=h>>1;k=h&&1;if(g==2){j=j+parseInt(32768);g=0};k=j&63;l=k|192;aa=l;kai=k;zb=l;p=255;a=aa;l=document.form1.txta.value;l=l*256;re=k*parseInt(l)-parseInt(m);m=l&p;n=parseInt(l)-parseInt(m);o=n/256;d=a*m;e=d&p;f=parseInt(d)-parseInt(e);f=f/256;g=a*o;h=g&p;i=parseInt(g)-parseInt(h);j=parseInt(f)+parseInt(h);k=parseInt(i)+parseInt(j);if(k>65535){k=k-parseInt(65535)-1};ac=k;a=ab;b=ac;e=a/256;b=b>>1;c=b>>1;d=c/e;ag=d;ag=ag.toFixed(0);x=0;if(ag<=27){x=5};if(ag>=28){x=4};if(ag>=54){x=3};if(ag>=72){x=2};if(ag>=104){x=1};a=0;if(x==1){ina=ina+parseInt(1)};if(x==2){inb=inb+parseInt(1)};if(x==3){inc=inc+parseInt(1)};if(x==4){ind=ind+parseInt(1)};if(x==5){ine=ine+parseInt(1)}};ina=ina/65535*100;inb=inb/65535*100;inc=inc/65535*100;ind=ind/65535*100;ine=ine/65535*100;inf=(+ina+inb*0.4+inc*0.125);ing=(+inb*0.6+inc*0.75+ind*0.4);inh=(+inc*0.125+ind*0.6+ine);ina=ina.toFixed(2);inb=inb.toFixed(2);inc=inc.toFixed(2);ind=ind.toFixed(2);ine=ine.toFixed(2);inf=inf.toFixed(2);ing=ing.toFixed(2);inh=inh.toFixed(2);document.form1.txtdza.value=ina+"%";document.form1.txtdzb.value=inb+"%";document.form1.txtdzc.value=inc+"%";document.form1.txtdzd.value=ind+"%";document.form1.txtdze.value=ine+"%";document.form1.txtdzf.value = inf+"%";document.form1.txtdzg.value = ing+"%";document.form1.txtdzh.value = inh+"%";ina=0;inb=0;inc=0;ind=0;ine=0;inf=0;ing=0;ioi=0;iob=0}</script></head><body><form name="form1">攻撃成功率<INPUT TYPE="text"NAME="txta"><bR>防御回避率<INPUT TYPE="text"NAME="txtb"><br><br><input type="button"name="cmdCalc"value="計算してやるぜあ―――――っ！！"onclick="Calc()"><br><br>防御直撃<INPUT TYPE="text"size="10"NAME="txtdza"><br>防御かすり(60%)防御直撃(40%)<INPUT TYPE="text"size="10"NAME="txtdzb"><br>防御直撃(12.5%)防御かすり(75%)防御回避(12.5%)<INPUT TYPE="text"size="10"NAME="txtdzc"><br>防御回避(60%)防御かすり(40%)<INPUT TYPE="text"size="10"NAME="txtdzd"><br>防御回避<INPUT TYPE="text"size="10"NAME="txtdze"><br><b><br>防御回避<INPUT TYPE="text"size="10" NAME="txtdzh"><br>防御かすり<INPUT TYPE="text"size="10" NAME="txtdzg"><br>防御直撃<INPUT TYPE="text"size="10" NAME="txtdzf"><br></b><br><br><br><head><script><script type="text/javascript">function Calc(){</script><head></form><script type="text/javascript"><!--
+var fc2footerparam = 'charset=' + (document.charset ? document.charset : document.characterSet) + '&url=' + document.location + '&service=0&r=' + Math.floor(Math.random()*99999999999);
+var fc2footertag = '<' + 'script src="//vip.chps-api.fc2.com/apis/footer/?' + fc2footerparam + '" charset="UTF-8"><' + '/script>';
+document.write(fc2footertag);
+//--></script>
+<!-- FC2, inc.-->
+<img src="//media.fc2.com/counter_img.php?id=50" style="visibility:hidden" alt="inserted by FC2 system" width="0" height="0">
+<!-- FC2, inc.-->
+<script><!--
+var fc2footerparam = 'ver=1'
+    + '&url=' + encodeURIComponent(document.location)
+    + '&service=0'
+    + '&r=' + Math.floor(Math.random() * 99999999999);
+var fc2footertag = "//vip.chps-api.fc2.com/apis/footer/?" + fc2footerparam;
+var script = document.createElement('script');
+script.src = fc2footertag;
+script.charset = "UTF-8";
+script.async = true;
+document.getElementsByTagName('head')[0].appendChild(script);
+//--></script>
+<!-- FC2, inc.-->
+<img src="//media.fc2.com/counter_img.php?id=50" style="display:none" alt="inserted by FC2 system" width="0" height="0">
+<!-- FC2, inc.--></body></html>
