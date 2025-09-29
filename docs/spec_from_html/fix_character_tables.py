@@ -51,7 +51,7 @@ def clean_html_table(table_html):
     return str(soup)
 
 def extract_character_data(html_content, page_id):
-    """Extract character data including battle command table"""
+    """Extract character data including multiple battle command tables with form names"""
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Find the main content area
@@ -66,7 +66,7 @@ def extract_character_data(html_content, page_id):
     result = {
         'title': '',
         'basic_performance_table': '',
-        'battle_command_table': '',
+        'battle_command_tables': [],  # Changed to list for multiple forms
         'other_content': '',
         'notes': []
     }
@@ -78,15 +78,42 @@ def extract_character_data(html_content, page_id):
         # Remove site suffix
         result['title'] = re.sub(r'\s*-\s*.*?wiki.*$', '', title_text, flags=re.IGNORECASE).strip()
 
-    # Look for tables
+    # Look for tables with their associated headings
     tables = content_area.find_all('table')
 
-    # Usually character pages have 2 main tables: basic performance and battle commands
+    # First table is usually basic performance
     if len(tables) >= 1:
         result['basic_performance_table'] = clean_html_table(str(tables[0]))
 
-    if len(tables) >= 2:
-        result['battle_command_table'] = clean_html_table(str(tables[1]))
+    # Find all battle command tables (starting from 2nd table onwards)
+    # For each table, look backwards to find its heading (h3 or h4)
+    for i, table in enumerate(tables[1:], start=1):
+        # Find the heading before this table
+        form_name = None
+        current = table
+
+        # Look backwards through siblings to find h3 or h4
+        for _ in range(20):  # Check up to 20 elements back
+            current = current.previous_sibling
+            if not current:
+                break
+
+            if hasattr(current, 'name'):
+                if current.name in ['h3', 'h4']:
+                    form_name = current.get_text(strip=True)
+                    break
+                elif current.name == 'h2':
+                    # Stop at h2 (new major section)
+                    break
+
+        # If no form name found, use a default based on index
+        if not form_name:
+            form_name = f"戦闘コマンド" if i == 1 else f"戦闘コマンド{i}"
+
+        result['battle_command_tables'].append({
+            'form_name': form_name,
+            'table_html': clean_html_table(str(table))
+        })
 
     # Extract any character-specific notes
     for element in content_area.find_all(['div', 'p'], string=re.compile(r'霊撃.*は同じ|.*と.*は同じ')):
@@ -102,6 +129,9 @@ def extract_character_data(html_content, page_id):
     for element in content_area.find_all(['h2', 'h3', 'h4', 'p', 'div']):
         text = element.get_text(strip=True)
         if text and len(text) > 5:
+            # Skip if it's a form name we already captured
+            if any(text == bt['form_name'] for bt in result['battle_command_tables']):
+                continue
             if element.name.startswith('h'):
                 remaining_content.append(f"{'#' * int(element.name[1:])} {text}")
             else:
@@ -147,12 +177,25 @@ fetched_at: "2025-09-30T01:13:12.120955"
         content += character_data['basic_performance_table']
         content += '\n\n</div>\n\n'
 
-    # Add battle command table
-    if character_data['battle_command_table']:
-        content += "## 戦闘コマンド\n\n"
-        content += '<div class="character-table">\n\n'
-        content += character_data['battle_command_table']
-        content += '\n\n</div>\n\n'
+    # Add battle command tables (multiple forms if they exist)
+    if character_data['battle_command_tables']:
+        # If there's only one table and it has the default name, use "戦闘コマンド" as h2
+        if len(character_data['battle_command_tables']) == 1:
+            form_data = character_data['battle_command_tables'][0]
+            content += "## 戦闘コマンド\n\n"
+            content += '<div class="character-table">\n\n'
+            content += form_data['table_html']
+            content += '\n\n</div>\n\n'
+        else:
+            # Multiple forms - use h2 for "戦闘コマンド" and h3/h4 for form names
+            content += "## 戦闘コマンド\n\n"
+            for form_data in character_data['battle_command_tables']:
+                form_name = form_data['form_name']
+                # Use h4 for form names
+                content += f"#### {form_name}\n\n"
+                content += '<div class="character-table">\n\n'
+                content += form_data['table_html']
+                content += '\n\n</div>\n\n'
 
     # Add other content
     if character_data['other_content']:
@@ -215,7 +258,9 @@ def process_character_page(page_id):
 
     # Save file
     filename = f"{page_id:03d}-{character_data['title']}.md"
-    output_path = Path("docs/spec_from_html/yuyuz_md") / filename
+    # Handle path relative to script location
+    script_dir = Path(__file__).parent if '__file__' in globals() else Path('.')
+    output_path = script_dir / "yuyuz_md" / filename
 
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(updated_content)
@@ -226,7 +271,7 @@ def process_character_page(page_id):
 def main():
     """Main function to process all character pages"""
 
-    # Character page IDs to process
+    # Character page IDs to process - ALL characters
     character_pages = [24] + list(range(30, 49))  # 024, 030-048
 
     print(f"Processing {len(character_pages)} character pages...")
