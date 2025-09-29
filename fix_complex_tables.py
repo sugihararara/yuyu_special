@@ -1,4 +1,16 @@
----
+#!/usr/bin/env python3
+"""
+Fix complex tables in markdown files
+Specifically handles the character template tables with proper formatting
+"""
+
+from pathlib import Path
+import re
+
+def create_fixed_page_29():
+    """Create a properly formatted version of page 29 (個別雛形)"""
+
+    content = """---
 source: "https://w.atwiki.jp/yuyuz/pages/29.html"
 id: 29
 title: "個別雛形"
@@ -77,3 +89,84 @@ fetched_at: "2025-09-30T01:13:12.120955"
 ---
 
 [「個別雛形」をウィキ内検索](https://w.atwiki.jp//w.atwiki.jp/yuyuz/search?andor=and&keyword=%E5%80%8B%E5%88%A5%E9%9B%9B%E5%BD%A2)
+"""
+
+    return content
+
+def fix_character_page_tables(page_path):
+    """Fix tables in a character page to match the template format"""
+
+    with open(page_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # Check if this is a character page with the broken table format
+    if '## 基本性能' not in content or '## 戦闘コマンド' not in content:
+        return None
+
+    # Extract the front matter
+    front_matter = ""
+    if content.startswith('---'):
+        parts = content.split('---', 2)
+        if len(parts) >= 3:
+            front_matter = f"---{parts[1]}---\n\n"
+            content = parts[2]
+
+    # For now, just flag pages that need manual fixing
+    # since the actual data extraction would require parsing the original HTML
+    return None  # Return None to indicate we need to reprocess from HTML
+
+def main():
+    """Fix the complex tables in markdown files"""
+
+    # First, fix page 29 (the template)
+    print("Fixing page 29 (個別雛形)...")
+    page_29_path = Path("docs/spec_from_html/yuyuz_md/029-個別雛形.md")
+
+    if page_29_path.exists():
+        fixed_content = create_fixed_page_29()
+        with open(page_29_path, 'w', encoding='utf-8') as f:
+            f.write(fixed_content)
+        print(f"Fixed: {page_29_path}")
+
+    # Also save to the root yuyuz_md directory if it exists
+    alt_path = Path("yuyuz_md/029-個別雛形.md")
+    if alt_path.exists():
+        fixed_content = create_fixed_page_29()
+        with open(alt_path, 'w', encoding='utf-8') as f:
+            f.write(fixed_content)
+        print(f"Fixed: {alt_path}")
+
+    # List other character pages that might need fixing
+    character_pages = [
+        "024-幽助.md",
+        "030-桑原.md",
+        "031-蔵馬.md",
+        "032-妖狐蔵馬.md",
+        "033-飛影.md",
+        "034-幻海.md",
+        "035-幻海(若).md",
+        "036-鈴駒.md",
+        "037-凍矢.md",
+        "038-陣.md",
+        "039-死々若丸.md",
+        "040-鴉.md",
+        "041-武威.md",
+        "042-戸愚呂兄.md",
+        "043-戸愚呂弟.md",
+        "044-100%.md",
+        "045-神谷.md",
+        "046-刃霧.md",
+        "047-樹.md",
+        "048-仙水.md"
+    ]
+
+    print("\nCharacter pages that may have complex tables needing review:")
+    for page_name in character_pages:
+        for base_dir in [Path("docs/spec_from_html/yuyuz_md"), Path("yuyuz_md")]:
+            page_path = base_dir / page_name
+            if page_path.exists():
+                print(f"  - {page_path}")
+                break
+
+if __name__ == "__main__":
+    main()

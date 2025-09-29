@@ -1,4 +1,14 @@
----
+#!/usr/bin/env python3
+"""
+Fix the broken table layout in page 12 (戦闘コマンド性能)
+"""
+
+from pathlib import Path
+
+def create_fixed_page_12():
+    """Create a properly formatted version of page 12"""
+
+    content = """---
 source: "https://w.atwiki.jp/yuyuz/pages/12.html"
 id: 12
 title: "戦闘コマンド性能"
@@ -87,3 +97,27 @@ fetched_at: "2025-09-30T01:12:55.001178"
 注: このページは大量のデータテーブルを含んでいます。完全なデータは元のWikiページをご確認ください。
 
 [「戦闘コマンド性能」をウィキ内検索](https://w.atwiki.jp//w.atwiki.jp/yuyuz/search?andor=and&keyword=%E6%88%A6%E9%97%98%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E6%80%A7%E8%83%BD)
+"""
+
+    return content
+
+def main():
+    """Fix page 12"""
+
+    page_12_path = Path("docs/spec_from_html/yuyuz_md/012-戦闘コマンド性能.md")
+
+    if page_12_path.exists():
+        fixed_content = create_fixed_page_12()
+        with open(page_12_path, 'w', encoding='utf-8') as f:
+            f.write(fixed_content)
+        print(f"Fixed: {page_12_path}")
+
+    # Also save to the root yuyuz_md directory if it exists
+    alt_path = Path("yuyuz_md/012-戦闘コマンド性能.md")
+    if alt_path.exists():
+        with open(alt_path, 'w', encoding='utf-8') as f:
+            f.write(fixed_content)
+        print(f"Fixed: {alt_path}")
+
+if __name__ == "__main__":
+    main()
