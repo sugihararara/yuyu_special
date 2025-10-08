@@ -119,6 +119,7 @@ Designed for deployment on **Vercel**:
 - Static site hosting (free tier)
 - Automatic builds from Git
 - Fast global CDN
+https://yuyu-special.vercel.app/
 
 PeerJS enables direct P2P connections (low latency) after initial page load from Vercel.
 
