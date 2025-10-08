@@ -42,3 +42,6 @@ desktop.ini
 
 # pyenv
 .python-version
+
+# coding ai
+.claude/
