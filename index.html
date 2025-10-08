@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>幽☆遊☆白書 特別篇</title>
+    <title>幽☆遊☆白書 特別篇 - Test Menu</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            background: #000;
+            background: #111;
             font-family: "MS Gothic", monospace;
             display: flex;
             justify-content: center;
@@ -21,21 +21,104 @@
             color: #fff;
         }
 
-        #game-canvas {
-            border: 2px solid #333;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
+        .container {
+            max-width: 600px;
+            padding: 40px;
         }
 
-        #loading {
-            font-size: 24px;
+        h1 {
+            font-size: 32px;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .test-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .test-link {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+
+        .test-link:hover {
+            background: #333;
+            border-color: #ffcc00;
+        }
+
+        .test-link.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .test-link.disabled:hover {
+            background: #222;
+            border-color: #444;
+        }
+
+        .status {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+
+        .status.working {
+            color: #66ff66;
+        }
+
+        .footer {
+            margin-top: 60px;
+            font-size: 12px;
+            color: #444;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div id="loading">Loading...</div>
-    <canvas id="game-canvas" width="512" height="448" style="display:none;"></canvas>
-    <script type="module" src="/src/main.ts"></script>
+    <div class="container">
+        <h1>幽☆遊☆白書 特別篇</h1>
+        <div class="subtitle">Development Test Menu</div>
+
+        <div class="test-menu">
+            <a href="game.html" class="test-link">
+                Game UI Test <span class="status working">[Working]</span>
+            </a>
+
+            <a href="stage-select-test.html" class="test-link">
+                Stage Select Test <span class="status">[Not Implemented]</span>
+            </a>
+
+            <a href="character-select-test.html" class="test-link">
+                Character Select Test <span class="status">[Not Implemented]</span>
+            </a>
+
+            <a href="#" class="test-link disabled">
+                CPU Battle Mode <span class="status">[Future]</span>
+            </a>
+
+            <a href="#" class="test-link disabled">
+                Remote Battle Mode <span class="status">[Future]</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            Test/Development Mode
+        </div>
+    </div>
 </body>
 </html>
