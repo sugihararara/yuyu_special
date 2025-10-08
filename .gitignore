@@ -37,6 +37,11 @@ desktop.ini
 *.tmp
 .cache/
 
+# Node.js / TypeScript / Vite
+node_modules/
+dist/
+*.tsbuildinfo
+
 # Jupyter Notebook
 .ipynb_checkpoints
 
