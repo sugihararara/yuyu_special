@@ -801,12 +801,12 @@
             <button id="touki1-reset">リセット</button>
             <button id="touki1-set50">50%</button>
             <button id="touki1-set100">100%</button>
-            <span style="margin-left: 5px;"><span id="touki1-value">0</span>%</span><br>
+            <span style="margin-left: 5px;"><span id="touki1-value">0</span>/96</span><br>
             2P: <button id="touki2-charge" style="background: #400;">押して溜める</button>
             <button id="touki2-reset">リセット</button>
             <button id="touki2-set50">50%</button>
             <button id="touki2-set100">100%</button>
-            <span style="margin-left: 5px;"><span id="touki2-value">0</span>%</span><br>
+            <span style="margin-left: 5px;"><span id="touki2-value">0</span>/96</span><br>
             <strong style="color: #ff0;">1P色:</strong>
             <button id="touki1-color-red">赤</button>
             <button id="touki1-color-cyan">水色</button>
@@ -820,18 +820,18 @@
         <!-- バランス調整（下部中） -->
         <div style="margin-bottom: 8px; padding: 4px; border: 1px solid #444;">
             <strong style="color: #ff0;">バランス:</strong><br>
-            1P: <input type="number" id="balance1-input" min="0" max="100" value="100" style="width: 50px; background: #222; color: #fff; border: 1px solid #666;">%
+            1P: <input type="number" id="balance1-input" min="0" max="255" value="0" style="width: 50px; background: #222; color: #fff; border: 1px solid #666;">
             <button id="balance1-set">設定</button>
             <button id="balance1-0">0%</button>
             <button id="balance1-50">50%</button>
             <button id="balance1-100">100%</button>
-            <span style="margin-left: 5px;">現在: <span id="balance1-value">100</span>%</span><br>
-            2P: <input type="number" id="balance2-input" min="0" max="100" value="100" style="width: 50px; background: #222; color: #fff; border: 1px solid #666;">%
+            <span style="margin-left: 5px;">現在: <span id="balance1-value">0</span></span><br>
+            2P: <input type="number" id="balance2-input" min="0" max="255" value="0" style="width: 50px; background: #222; color: #fff; border: 1px solid #666;">
             <button id="balance2-set">設定</button>
             <button id="balance2-0">0%</button>
             <button id="balance2-50">50%</button>
             <button id="balance2-100">100%</button>
-            <span style="margin-left: 5px;">現在: <span id="balance2-value">100</span>%</span><br>
+            <span style="margin-left: 5px;">現在: <span id="balance2-value">0</span></span><br>
             <strong style="color: #ff0;">入力ランプ:</strong>
             1P: <button id="lamp1-blue">青</button><button id="lamp1-yellow">黄</button><button id="lamp1-red">赤</button>
             　2P: <button id="lamp2-blue">青</button><button id="lamp2-yellow">黄</button><button id="lamp2-red">赤</button>
@@ -961,6 +961,7 @@
         // ========================================
         
         // 闘気メーターの状態管理
+        // Touki values: 0-96 (97 levels, matches game specs)
         let touki1 = 0;
         let touki2 = 0;
         let isTouki1Charging = false;  // 1P充電中フラグ
@@ -983,41 +984,42 @@
             return 176;
         }
         
-        const TOUKI_CHARGE_SPEED = 1.0; // 充電速度
-        
+        const TOUKI_CHARGE_SPEED = 0.96; // 充電速度 (96 frames to MAX)
+
         // 闘気メーターの値を更新する関数
         function updateToukiDisplay() {
             const touki1Element = document.getElementById('touki1');
             const touki2Element = document.getElementById('touki2');
-            
+
             // 実際の枠の幅を動的に取得
             const meter1Width = getToukiMeterWidth(1);
             const meter2Width = getToukiMeterWidth(2);
-            
+
             // 幅を更新（ピクセル値で設定）
-            const width1 = (touki1 / 100) * meter1Width;
-            const width2 = (touki2 / 100) * meter2Width;
-            
+            // touki: 0-96 → convert to percentage for display
+            const width1 = (touki1 / 96 * 100 / 100) * meter1Width;
+            const width2 = (touki2 / 96 * 100 / 100) * meter2Width;
+
             touki1Element.style.width = width1 + 'px';
             touki2Element.style.width = width2 + 'px';
-            
-            // デバッグパネルの値表示を更新
+
+            // デバッグパネルの値表示を更新 (show raw value)
             document.getElementById('touki1-value').textContent = Math.round(touki1);
             document.getElementById('touki2-value').textContent = Math.round(touki2);
         }
-        
+
         // 闘気メーターのアニメーション処理
         function animateTouki() {
             // 1Pの処理（押している間だけ増加）
-            if (isTouki1Charging && touki1 < 100) {
-                touki1 = Math.min(100, touki1 + TOUKI_CHARGE_SPEED);
+            if (isTouki1Charging && touki1 < 96) {
+                touki1 = Math.min(96, touki1 + TOUKI_CHARGE_SPEED);
             }
-            
+
             // 2Pの処理（押している間だけ増加）
-            if (isTouki2Charging && touki2 < 100) {
-                touki2 = Math.min(100, touki2 + TOUKI_CHARGE_SPEED);
+            if (isTouki2Charging && touki2 < 96) {
+                touki2 = Math.min(96, touki2 + TOUKI_CHARGE_SPEED);
             }
-            
+
             updateToukiDisplay();
             toukiAnimationId = requestAnimationFrame(animateTouki);
         }
@@ -1147,8 +1149,8 @@
             });
             
             document.getElementById('touki1-reset').addEventListener('click', resetTouki1);
-            document.getElementById('touki1-set50').addEventListener('click', () => setTouki1(50));
-            document.getElementById('touki1-set100').addEventListener('click', () => setTouki1(100));
+            document.getElementById('touki1-set50').addEventListener('click', () => setTouki1(48)); // 50% of 96
+            document.getElementById('touki1-set100').addEventListener('click', () => setTouki1(96)); // MAX
             
             // 2P闘気コントロール
             const touki2ChargeBtn = document.getElementById('touki2-charge');
@@ -1165,8 +1167,8 @@
             });
             
             document.getElementById('touki2-reset').addEventListener('click', resetTouki2);
-            document.getElementById('touki2-set50').addEventListener('click', () => setTouki2(50));
-            document.getElementById('touki2-set100').addEventListener('click', () => setTouki2(100));
+            document.getElementById('touki2-set50').addEventListener('click', () => setTouki2(48)); // 50% of 96
+            document.getElementById('touki2-set100').addEventListener('click', () => setTouki2(96)); // MAX
             
             // 1P闘気メーター色変更
             document.getElementById('touki1-color-red').addEventListener('click', () => {
@@ -1199,43 +1201,48 @@
         // HPメーター関連のコード
         // ========================================
         
-        // HPの状態管理（0-100%）
-        let hp1Current = 100;
-        let hp2Current = 100;
-        let hp1Target = 100;
-        let hp2Target = 100;
-        
+        // HP values: 0-96 (matches game specs)
+        let hp1Current = 96;
+        let hp2Current = 96;
+        let hp1Target = 96;
+        let hp2Target = 96;
+
         // HPメーターの更新関数
         function updateHPDisplay() {
             // 1P HP更新
             const hp1Yellow = document.querySelector('.hp-bar.p1 .hp-bar-yellow');
             const hp1Red = document.querySelector('.hp-bar.p1 .hp-bar-red');
-            
-            if (hp1Current <= 50) {
-                // 黄色バーのみ（1-50%）
-                hp1Yellow.style.width = (hp1Current * 2) + '%';  // 0-50を0-100%に変換
+
+            // HP: 0-96 → convert to percentage
+            const hp1Percent = (hp1Current / 96) * 100;
+
+            if (hp1Percent <= 50) {
+                // 黄色バーのみ（0-50%）
+                hp1Yellow.style.width = (hp1Percent * 2) + '%';  // 0-50を0-100%に変換
                 hp1Red.style.width = '0%';
             } else {
                 // 赤バーと黄色バー（51-100%）
                 hp1Yellow.style.width = '100%';
-                hp1Red.style.width = ((hp1Current - 50) * 2) + '%';  // 51-100を0-100%に変換
+                hp1Red.style.width = ((hp1Percent - 50) * 2) + '%';  // 51-100を0-100%に変換
             }
-            
+
             // 2P HP更新
             const hp2Yellow = document.querySelector('.hp-bar.p2 .hp-bar-yellow');
             const hp2Red = document.querySelector('.hp-bar.p2 .hp-bar-red');
-            
-            if (hp2Current <= 50) {
-                // 黄色バーのみ（1-50%）
-                hp2Yellow.style.width = (hp2Current * 2) + '%';
+
+            const hp2Percent = (hp2Current / 96) * 100;
+
+            if (hp2Percent <= 50) {
+                // 黄色バーのみ（0-50%）
+                hp2Yellow.style.width = (hp2Percent * 2) + '%';
                 hp2Red.style.width = '0%';
             } else {
                 // 赤バーと黄色バー（51-100%）
                 hp2Yellow.style.width = '100%';
-                hp2Red.style.width = ((hp2Current - 50) * 2) + '%';
+                hp2Red.style.width = ((hp2Percent - 50) * 2) + '%';
             }
-            
-            // 表示値更新
+
+            // 表示値更新 (show raw value)
             document.getElementById('hp1-value').textContent = Math.round(hp1Current);
             document.getElementById('hp2-value').textContent = Math.round(hp2Current);
         }
@@ -1264,13 +1271,13 @@
         
         // HP設定関数
         function setHP1(value) {
-            value = Math.max(0, Math.min(100, value));  // 0-100の範囲に制限
+            value = Math.max(0, Math.min(96, value));  // 0-96の範囲に制限
             hp1Target = value;
             document.getElementById('hp1-input').value = value;
         }
-        
+
         function setHP2(value) {
-            value = Math.max(0, Math.min(100, value));  // 0-100の範囲に制限
+            value = Math.max(0, Math.min(96, value));  // 0-96の範囲に制限
             hp2Target = value;
             document.getElementById('hp2-input').value = value;
         }
@@ -1285,18 +1292,18 @@
                 const value = parseFloat(document.getElementById('hp1-input').value);
                 setHP1(value);
             });
-            document.getElementById('hp1-0').addEventListener('click', () => setHP1(0));
-            document.getElementById('hp1-50').addEventListener('click', () => setHP1(50));
-            document.getElementById('hp1-100').addEventListener('click', () => setHP1(100));
+            document.getElementById('hp1-0').addEventListener('click', () => setHP1(0)); // Defeated
+            document.getElementById('hp1-50').addEventListener('click', () => setHP1(48)); // Half HP
+            document.getElementById('hp1-100').addEventListener('click', () => setHP1(96)); // Full HP
             
             // 2P HPコントロール
             document.getElementById('hp2-set').addEventListener('click', () => {
                 const value = parseFloat(document.getElementById('hp2-input').value);
                 setHP2(value);
             });
-            document.getElementById('hp2-0').addEventListener('click', () => setHP2(0));
-            document.getElementById('hp2-50').addEventListener('click', () => setHP2(50));
-            document.getElementById('hp2-100').addEventListener('click', () => setHP2(100));
+            document.getElementById('hp2-0').addEventListener('click', () => setHP2(0)); // Defeated
+            document.getElementById('hp2-50').addEventListener('click', () => setHP2(48)); // Half HP
+            document.getElementById('hp2-100').addEventListener('click', () => setHP2(96)); // Full HP
             
             // Enterキーでも設定できるように
             document.getElementById('hp1-input').addEventListener('keypress', (e) => {
@@ -1315,23 +1322,27 @@
         // バランスメーター関連のコード
         // ========================================
         
-        // バランスの状態管理（0-100%）
-        let balance1Current = 100;
-        let balance2Current = 100;
-        let balance1Target = 100;
-        let balance2Target = 100;
-        
+        // Balance values: 0-255 (balance DAMAGE, 0=full bar, 255=knocked down)
+        // Inverted from display: bar shows remaining balance
+        let balance1Current = 0;
+        let balance2Current = 0;
+        let balance1Target = 0;
+        let balance2Target = 0;
+
         // バランスメーターの更新関数
         function updateBalanceDisplay() {
             // 1P バランス更新
+            // Convert balance damage (0-255) to remaining percentage (0-100%)
+            const balance1Percent = ((256 - balance1Current) / 256) * 100;
             const balance1Fill = document.querySelector('.balance-meter.p1 .balance-meter-fill');
-            balance1Fill.style.width = balance1Current + '%';
-            
+            balance1Fill.style.width = balance1Percent + '%';
+
             // 2P バランス更新
+            const balance2Percent = ((256 - balance2Current) / 256) * 100;
             const balance2Fill = document.querySelector('.balance-meter.p2 .balance-meter-fill');
-            balance2Fill.style.width = balance2Current + '%';
-            
-            // 表示値更新
+            balance2Fill.style.width = balance2Percent + '%';
+
+            // 表示値更新 (show raw damage value)
             document.getElementById('balance1-value').textContent = Math.round(balance1Current);
             document.getElementById('balance2-value').textContent = Math.round(balance2Current);
         }
@@ -1372,13 +1383,13 @@
         
         // バランス設定関数
         function setBalance1(value) {
-            value = Math.max(0, Math.min(100, value));  // 0-100の範囲に制限
+            value = Math.max(0, Math.min(255, value));  // 0-255の範囲に制限
             balance1Target = value;
             document.getElementById('balance1-input').value = value;
         }
-        
+
         function setBalance2(value) {
-            value = Math.max(0, Math.min(100, value));  // 0-100の範囲に制限
+            value = Math.max(0, Math.min(255, value));  // 0-255の範囲に制限
             balance2Target = value;
             document.getElementById('balance2-input').value = value;
         }
@@ -1393,18 +1404,18 @@
                 const value = parseFloat(document.getElementById('balance1-input').value);
                 setBalance1(value);
             });
-            document.getElementById('balance1-0').addEventListener('click', () => setBalance1(0));
-            document.getElementById('balance1-50').addEventListener('click', () => setBalance1(50));
-            document.getElementById('balance1-100').addEventListener('click', () => setBalance1(100));
+            document.getElementById('balance1-0').addEventListener('click', () => setBalance1(0)); // No damage (full bar)
+            document.getElementById('balance1-50').addEventListener('click', () => setBalance1(128)); // Half damage
+            document.getElementById('balance1-100').addEventListener('click', () => setBalance1(255)); // Knocked down
             
             // 2P バランスコントロール
             document.getElementById('balance2-set').addEventListener('click', () => {
                 const value = parseFloat(document.getElementById('balance2-input').value);
                 setBalance2(value);
             });
-            document.getElementById('balance2-0').addEventListener('click', () => setBalance2(0));
-            document.getElementById('balance2-50').addEventListener('click', () => setBalance2(50));
-            document.getElementById('balance2-100').addEventListener('click', () => setBalance2(100));
+            document.getElementById('balance2-0').addEventListener('click', () => setBalance2(0)); // No damage (full bar)
+            document.getElementById('balance2-50').addEventListener('click', () => setBalance2(128)); // Half damage
+            document.getElementById('balance2-100').addEventListener('click', () => setBalance2(255)); // Knocked down
             
             // Enterキーでも設定できるように
             document.getElementById('balance1-input').addEventListener('keypress', (e) => {
