@@ -68,11 +68,31 @@ export interface CharacterStats {
 }
 
 /**
+ * Move identifier (AI-friendly and beginner-friendly naming)
+ */
+export type MoveId =
+  // Forward direction
+  | 'forward_a' | 'forward_b' | 'forward_x' | 'forward_y'
+  // Back direction
+  | 'back_a' | 'back_b' | 'back_x' | 'back_y'
+  // Up direction
+  | 'up_a' | 'up_b' | 'up_x' | 'up_y'
+  // Down direction
+  | 'down_a' | 'down_b' | 'down_x' | 'down_y'
+  // Neutral (no direction)
+  | 'neutral_a' | 'neutral_b' | 'neutral_x' | 'neutral_y'
+  // Special moves
+  | 'spirit_boost_down_a' | 'spirit_boost_down_b' | 'spirit_boost_down_x' | 'spirit_boost_down_y'
+  // Character-specific special moves
+  | string;
+
+/**
  * Move/Action data
  * Four core stats (四大性能) for each action
  */
 export interface MoveData {
   // Identification
+  id: MoveId;                   // e.g., "forward_a", "down_b"
   command: string;              // e.g., "→A", "↓B"
   name: string;                 // Move name (Japanese)
   nameEn?: string;              // English name
