@@ -23,11 +23,15 @@ export const AVAILABLE_CHARACTERS: CharacterId[] = [
  */
 export async function loadCharacter(characterId: CharacterId): Promise<CharacterData> {
   try {
-    // Dynamic import of JSON file
-    const characterData = await import(`./characters/${characterId}.json`);
+    // Fetch JSON file from public directory
+    const response = await fetch(`/data/characters/${characterId}.json`);
 
-    // Return the default export (the JSON object)
-    return characterData.default as CharacterData;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const characterData = await response.json();
+    return characterData as CharacterData;
   } catch (error) {
     throw new Error(`Failed to load character "${characterId}": ${error}`);
   }

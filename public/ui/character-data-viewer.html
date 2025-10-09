@@ -225,8 +225,8 @@
             event.target.classList.add('active');
 
             try {
-                // Fetch JSON file directly
-                const response = await fetch(`/src/data/characters/${charId}.json`);
+                // Fetch JSON file from public directory
+                const response = await fetch(`/data/characters/${charId}.json`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -275,8 +275,20 @@
                             <div class="stat-value">${data.stats.airtime}F</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-label">Knockdown Duration</div>
+                            <div class="stat-label">Knockdown Duration (No Mashing)</div>
                             <div class="stat-value">${data.stats.knockdownDuration}F</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Knockdown (30/sec Mashing)</div>
+                            <div class="stat-value">${data.stats.knockdownDuration30PerSec}F</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Knockdown (60/sec Mashing)</div>
+                            <div class="stat-value">${data.stats.knockdownDuration60PerSec}F</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Airtime Touki</div>
+                            <div class="stat-value">${data.stats.airtimeTouki} bars</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-label">Powered Punch Rate</div>
@@ -285,22 +297,6 @@
                         <div class="stat-item">
                             <div class="stat-label">Clean Hit Rate</div>
                             <div class="stat-value">${(data.stats.cleanHitRate * 100).toFixed(1)}%</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Block Rate</div>
-                            <div class="stat-value">${data.stats.blockRate}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Guard Rate</div>
-                            <div class="stat-value">${data.stats.guardRate}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Dodge Rate</div>
-                            <div class="stat-value">${data.stats.dodgeRate}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Jump Rate</div>
-                            <div class="stat-value">${data.stats.jumpRate}</div>
                         </div>
                     </div>
                 </div>
@@ -319,6 +315,9 @@
                                 <th>Power</th>
                                 <th>Balance</th>
                                 <th>Reiki Cost</th>
+                                <th>Prep (Forest)</th>
+                                <th>Prep F</th>
+                                <th>Activation F</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -333,6 +332,9 @@
                                     <td>${move.power}</td>
                                     <td>${move.balanceDrain}</td>
                                     <td>${move.reikiCost}</td>
+                                    <td>${move.frames.prepTransition.forest}F</td>
+                                    <td>${move.frames.preparation}F</td>
+                                    <td>${move.frames.activation}F</td>
                                 </tr>
                             `).join('')}
                         </tbody>

@@ -11,13 +11,12 @@
     "realBalance": 455,
     "airtime": 187,
     "knockdownDuration": 356,
+    "knockdownDuration30PerSec": 118,
+    "knockdownDuration60PerSec": 71,
     "knockdownSpeed": 1,
+    "airtimeTouki": 1.55,
     "poweredPunchRate": 0.082,
-    "cleanHitRate": 0.039,
-    "blockRate": 128,
-    "guardRate": 96,
-    "dodgeRate": 128,
-    "jumpRate": 120
+    "cleanHitRate": 0.039
   },
 
   "moves": [
@@ -35,13 +34,13 @@
       "reikiCost": 0,
       "frames": {
         "prepTransition": {
-          "forest": 0,
-          "dark": 0,
-          "guillotine": 0,
-          "timegap": 0
+          "forest": 39,
+          "dark": 37,
+          "guillotine": 36,
+          "timegap": 36
         },
-        "preparation": 0,
-        "activation": 0,
+        "preparation": 30,
+        "activation": 141,
         "isAerial": false
       }
     }

@@ -1,0 +1,47 @@
+{
+  "id": "yusuke",
+  "name": "幽助",
+  "nameEn": "Yusuke Urameshi",
+
+  "stats": {
+    "defense": 0.227,
+    "realHp": 424,
+    "balanceDefense": 0.563,
+    "realBalance": 455,
+    "airtime": 187,
+    "knockdownDuration": 356,
+    "knockdownDuration30PerSec": 118,
+    "knockdownDuration60PerSec": 71,
+    "knockdownSpeed": 1,
+    "airtimeTouki": 1.55,
+    "poweredPunchRate": 0.082,
+    "cleanHitRate": 0.039
+  },
+
+  "moves": [
+    {"id": "forward_a", "command": "→A", "name": "下強パンチ", "nameEn": "Weak Low Punch", "type": "punch", "priority": "low", "successRate": 50, "evasionRate": 48, "power": 22, "balanceDrain": 26, "reikiCost": 0, "frames": {"prepTransition": {"forest": 39, "dark": 37, "guillotine": 36, "timegap": 36}, "preparation": 30, "activation": 141, "isAerial": false}},
+    {"id": "forward_x", "command": "→X", "name": "上強パンチ", "nameEn": "Weak High Punch", "type": "punch", "priority": "low", "successRate": 50, "evasionRate": 48, "power": 22, "balanceDrain": 26, "reikiCost": 0, "frames": {"prepTransition": {"forest": 39, "dark": 37, "guillotine": 36, "timegap": 36}, "preparation": 30, "activation": 141, "isAerial": false}},
+    {"id": "forward_b", "command": "→B", "name": "下連打パンチ", "nameEn": "Low Rapid Punch", "type": "punch", "priority": "low", "successRate": 56, "evasionRate": 54, "power": 14, "balanceDrain": 44, "reikiCost": 0, "frames": {"prepTransition": {"forest": 39, "dark": 37, "guillotine": 36, "timegap": 36}, "preparation": 30, "activation": 121, "isAerial": false}},
+    {"id": "forward_y", "command": "→Y", "name": "上連打パンチ", "nameEn": "High Rapid Punch", "type": "punch", "priority": "low", "successRate": 56, "evasionRate": 54, "power": 14, "balanceDrain": 44, "reikiCost": 0, "frames": {"prepTransition": {"forest": 39, "dark": 37, "guillotine": 36, "timegap": 36}, "preparation": 30, "activation": 121, "isAerial": false}},
+    {"id": "back_a", "command": "←A", "name": "受ける", "nameEn": "Block", "type": "defense", "priority": "low", "successRate": 128, "evasionRate": 128, "power": 0, "balanceDrain": 0, "reikiCost": 0, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}},
+    {"id": "back_b", "command": "←B", "name": "下ガード", "nameEn": "Low Guard", "type": "guard", "priority": "low", "successRate": 96, "evasionRate": 96, "power": 0, "balanceDrain": 0, "reikiCost": 0, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}},
+    {"id": "back_x", "command": "←X", "name": "上ガード", "nameEn": "High Guard", "type": "guard", "priority": "low", "successRate": 96, "evasionRate": 96, "power": 0, "balanceDrain": 0, "reikiCost": 0, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}},
+    {"id": "back_y", "command": "←Y", "name": "かわす", "nameEn": "Dodge", "type": "evasion", "priority": "low", "successRate": 128, "evasionRate": 128, "power": 0, "balanceDrain": 0, "reikiCost": 0, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}},
+    {"id": "up_a", "command": "↑A", "name": "闘志", "nameEn": "Fighting Spirit (Punch Boost)", "type": "buff", "priority": "low", "successRate": 56, "evasionRate": 56, "power": 0, "balanceDrain": 0, "reikiCost": 2, "frames": {"prepTransition": {"forest": 49, "dark": 48, "guillotine": 46, "timegap": 48}, "preparation": 39, "activation": 137, "isAerial": false}},
+    {"id": "up_b", "command": "↑B", "name": "霊力", "nameEn": "Spirit Power (Spirit Boost)", "type": "buff", "priority": "low", "successRate": 52, "evasionRate": 52, "power": 0, "balanceDrain": 0, "reikiCost": 2, "frames": {"prepTransition": {"forest": 52, "dark": 51, "guillotine": 49, "timegap": 51}, "preparation": 50, "activation": 137, "isAerial": false}},
+    {"id": "up_x", "command": "↑X", "name": "ジャンプ", "nameEn": "Jump", "type": "technique", "priority": "low", "successRate": 120, "evasionRate": 120, "power": 0, "balanceDrain": 0, "reikiCost": 3, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}},
+    {"id": "up_y", "command": "↑Y", "name": "だてにあの世は見てねえぜ！", "nameEn": "I Didn't See The Spirit World For Nothing!", "type": "buff", "priority": "low", "successRate": 80, "evasionRate": 80, "power": 0, "balanceDrain": 0, "reikiCost": 3, "frames": {"prepTransition": {"forest": 47, "dark": 46, "guillotine": 44, "timegap": 46}, "preparation": 39, "activation": 154, "isAerial": false}},
+    {"id": "down_a", "command": "↓A", "name": "霊光弾", "nameEn": "Spirit Gun Bullet", "type": "spirit", "priority": "medium", "successRate": 122, "evasionRate": 102, "power": 84, "balanceDrain": 140, "reikiCost": 6, "frames": {"prepTransition": {"forest": 35, "dark": 34, "guillotine": 32, "timegap": 34}, "preparation": 90, "activation": 121, "isAerial": false}},
+    {"id": "down_b", "command": "↓B", "name": "霊拳", "nameEn": "Spirit Punch", "type": "spirit", "priority": "medium", "successRate": 116, "evasionRate": 98, "power": 68, "balanceDrain": 116, "reikiCost": 4, "frames": {"prepTransition": {"forest": 58, "dark": 56, "guillotine": 55, "timegap": 55}, "preparation": 70, "activation": 59, "isAerial": false}},
+    {"id": "down_x", "command": "↓X", "name": "霊丸", "nameEn": "Spirit Gun", "type": "spirit", "priority": "highest", "successRate": 128, "evasionRate": 84, "power": 106, "balanceDrain": 124, "reikiCost": 8, "frames": {"prepTransition": {"forest": 56, "dark": 56, "guillotine": 49, "timegap": 52}, "preparation": 110, "activation": 210, "isAerial": false}},
+    {"id": "down_y", "command": "↓Y", "name": "ショットガン", "nameEn": "Spirit Shotgun", "type": "spirit", "priority": "highest", "successRate": 118, "evasionRate": 96, "power": 76, "balanceDrain": 88, "reikiCost": 5, "frames": {"prepTransition": {"forest": 47, "dark": 46, "guillotine": 44, "timegap": 46}, "preparation": 71, "activation": 159, "isAerial": false}},
+    {"id": "spirit_boost_down_a", "command": "霊撃力UP↓A", "name": "霊光弾 (霊撃力UP)", "nameEn": "Spirit Gun Bullet (Boosted)", "type": "spirit", "priority": "medium", "successRate": 126, "evasionRate": 106, "power": 92, "balanceDrain": 160, "reikiCost": 6, "frames": {"prepTransition": {"forest": 35, "dark": 34, "guillotine": 32, "timegap": 34}, "preparation": 90, "activation": 121, "isAerial": false}},
+    {"id": "spirit_boost_down_b", "command": "霊撃力UP↓B", "name": "霊拳 (霊撃力UP)", "nameEn": "Spirit Punch (Boosted)", "type": "spirit", "priority": "medium", "successRate": 120, "evasionRate": 102, "power": 80, "balanceDrain": 136, "reikiCost": 4, "frames": {"prepTransition": {"forest": 58, "dark": 56, "guillotine": 55, "timegap": 55}, "preparation": 70, "activation": 94, "isAerial": false}},
+    {"id": "spirit_boost_down_x", "command": "霊撃力UP↓X", "name": "霊丸 (霊撃力UP)", "nameEn": "Spirit Gun (Boosted)", "type": "spirit", "priority": "highest", "successRate": 140, "evasionRate": 88, "power": 130, "balanceDrain": 176, "reikiCost": 8, "frames": {"prepTransition": {"forest": 56, "dark": 56, "guillotine": 49, "timegap": 52}, "preparation": 110, "activation": 248, "isAerial": false}},
+    {"id": "spirit_boost_down_y", "command": "霊撃力UP↓Y", "name": "ショットガン (霊撃力UP)", "nameEn": "Spirit Shotgun (Boosted)", "type": "spirit", "priority": "highest", "successRate": 126, "evasionRate": 98, "power": 84, "balanceDrain": 112, "reikiCost": 5, "frames": {"prepTransition": {"forest": 47, "dark": 46, "guillotine": 44, "timegap": 46}, "preparation": 71, "activation": 159, "isAerial": false}},
+    {"id": "item_use", "command": "AorY", "name": "アイテム", "nameEn": "Use Item", "type": "technique", "priority": "low", "successRate": 38, "evasionRate": 38, "power": 0, "balanceDrain": 0, "reikiCost": 0, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}},
+    {"id": "no_action", "command": "なし", "name": "無行動", "nameEn": "No Action", "type": "technique", "priority": "low", "successRate": 16, "evasionRate": 16, "power": 0, "balanceDrain": 0, "reikiCost": 0, "frames": {"prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0}, "preparation": 0, "activation": 0, "isAerial": false}}
+  ],
+
+  "canTransform": false
+}

@@ -52,19 +52,18 @@ export interface CharacterStats {
   // Airtime (滞空時間) - frames in air
   airtime: number;              // 150F to 543F
 
-  // Knockdown duration (ダウン時間) - base recovery time
-  knockdownDuration: number;    // 257F to 630F
-  knockdownSpeed: number;       // Recovery speed value (7E0EBA / 7E10BA)
+  // Knockdown duration (ダウン時間)
+  knockdownDuration: number;        // Base (短縮無し): 257F to 630F
+  knockdownDuration30PerSec: number; // With 30/sec mashing
+  knockdownDuration60PerSec: number; // With 60/sec mashing
+  knockdownSpeed: number;           // Recovery speed value (7E0EBA / 7E10BA)
+
+  // Airtime touki (霊撃闘気) - How much touki can be charged while airborne
+  airtimeTouki: number;             // In bars (本): 1.55, 1.86, etc.
 
   // Special hit rates
   poweredPunchRate: number;     // 気合いの入ったパンチ: 4.3% to 15.6%
   cleanHitRate: number;         // クリーンヒット: 3.5% to 8.6%
-
-  // Evasion rates (回避率)
-  blockRate: number;            // 受ける: 120-132
-  guardRate: number;            // 上下ガード: 94-101
-  dodgeRate: number;            // かわす: 112-136
-  jumpRate: number;             // ジャンプ: 116-132
 }
 
 /**
