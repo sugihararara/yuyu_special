@@ -207,11 +207,50 @@ After creating your JSON:
 }
 ```
 
+## ⚠️ Common Incomplete/Tricky Areas
+
+#### 1. Frame Data
+If you see moves with `0` for all frame values, they need to be filled from `057-モーションフレーム.md`.
+
+#### 2. Defensive Moves & Jump Are 0F (Correct!)
+Defensive moves (`back_a`, `back_b`, `back_x`, `back_y`) and Jump (`up_x`) are set to `0F`.
+- **This is CORRECT** - They are instant/reactive actions
+- The frame data doc (057-モーションフレーム.md) does NOT have individual frame data for these moves
+- Only offensive moves (パンチ, 技, 霊撃) have frame data tables
+
+#### 3. Aerial Move Variants
+Frame data doc has separate entries for:
+- 地 (ground) - currently stored
+- 空 (aerial) - NOT currently stored
+
+**Current limitation:** Only ground versions are stored in JSON.
+
+**Example from 057-モーションフレーム.md:**
+```
+パンチ AX 地: 39/37/36/36 準備30 発動141
+パンチ AX 空: 25/25/25/25 準備28 発動113
+```
+
+We only store the 地 (ground) version. The 空 (aerial) version is ignored.
+
+**Possible future improvement:** Add `"isAerial"` variants or separate moves.
+
+#### 4. Move Priority Values
+Priority is set based on interpretation:
+- `"low"` - Most moves
+- `"medium"` - Contact spirit moves
+- `"highest"` - Flying spirit moves
+
+**Status:** Not verified against actual game logic. May need adjustment.
+
+#### 5. Item Use & No Action Frames
+Set to `0F` - probably correct for instant actions, but unverified.
+
 ## 💡 Tips
 
 1. **Start with basics** - Get stats and moves working first
 2. **Frame data can be 0** - If you don't have frame data yet, use all zeros
-3. **Copy from existing** - Use `yusuke.json` as reference
+3. **Copy from existing** - Use existing character files as reference
 4. **Transformation characters** - Set `canTransform: true` and add `transformInto` and `transformCondition`
 
 ## 🔗 Useful Files
