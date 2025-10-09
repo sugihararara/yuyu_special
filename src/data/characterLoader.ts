@@ -1,10 +1,18 @@
 /**
  * Character Data Loader
  *
- * Loads character JSON files and returns typed CharacterData objects
+ * Loads character JSON files from split structure and returns typed CharacterData objects
+ * New structure: stats.json, moves.json, frames.json
  */
 
-import type { CharacterData, CharacterId } from '../types/CharacterData';
+import type {
+  CharacterData,
+  CharacterId,
+  CharacterStatsFile,
+  CharacterMovesFile,
+  CharacterFramesFile,
+  MoveData,
+} from '../types/CharacterData';
 
 /**
  * Available characters (test set - 3 characters)
@@ -16,22 +24,57 @@ export const AVAILABLE_CHARACTERS: CharacterId[] = [
 ];
 
 /**
- * Load character data from JSON file
+ * Load character data from split JSON files
+ * Loads stats.json, moves.json, frames.json and combines them
  * @param characterId - ID of the character to load
  * @returns Promise<CharacterData> - Character data object
  * @throws Error if character not found or invalid
  */
 export async function loadCharacter(characterId: CharacterId): Promise<CharacterData> {
   try {
-    // Fetch JSON file from public directory
-    const response = await fetch(`/data/characters/${characterId}.json`);
+    const basePath = `/data/characters/${characterId}`;
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    // Load all 3 files in parallel
+    const [statsResponse, movesResponse, framesResponse] = await Promise.all([
+      fetch(`${basePath}/stats.json`),
+      fetch(`${basePath}/moves.json`),
+      fetch(`${basePath}/frames.json`),
+    ]);
+
+    // Check responses
+    if (!statsResponse.ok) {
+      throw new Error(`Failed to load stats.json: ${statsResponse.status}`);
+    }
+    if (!movesResponse.ok) {
+      throw new Error(`Failed to load moves.json: ${movesResponse.status}`);
+    }
+    if (!framesResponse.ok) {
+      throw new Error(`Failed to load frames.json: ${framesResponse.status}`);
     }
 
-    const characterData = await response.json();
-    return characterData as CharacterData;
+    // Parse JSON
+    const statsData = (await statsResponse.json()) as CharacterStatsFile;
+    const movesData = (await movesResponse.json()) as CharacterMovesFile;
+    const framesData = (await framesResponse.json()) as CharacterFramesFile;
+
+    // Combine into CharacterData
+    const moves: MoveData[] = movesData.map((moveDefinition) => ({
+      ...moveDefinition,
+      frames: framesData[moveDefinition.id],
+    }));
+
+    const characterData: CharacterData = {
+      id: statsData.id,
+      name: statsData.name,
+      nameEn: statsData.nameEn,
+      canTransform: statsData.canTransform,
+      transformInto: statsData.transformInto,
+      transformCondition: statsData.transformCondition,
+      stats: statsData.stats,
+      moves,
+    };
+
+    return characterData;
   } catch (error) {
     throw new Error(`Failed to load character "${characterId}": ${error}`);
   }

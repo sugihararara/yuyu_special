@@ -1,0 +1,221 @@
+{
+  "forward_a": {
+    "ground": {
+      "prepTransition": {"forest": 42, "dark": 40, "guillotine": 39, "timegap": 39},
+      "preparation": 32,
+      "activation": 137
+    },
+    "aerial": {
+      "prepTransition": {"forest": 24, "dark": 24, "guillotine": 24, "timegap": 24},
+      "preparation": 28,
+      "activation": 112
+    }
+  },
+  "forward_x": {
+    "ground": {
+      "prepTransition": {"forest": 42, "dark": 40, "guillotine": 39, "timegap": 39},
+      "preparation": 32,
+      "activation": 137
+    },
+    "aerial": {
+      "prepTransition": {"forest": 24, "dark": 24, "guillotine": 24, "timegap": 24},
+      "preparation": 28,
+      "activation": 112
+    }
+  },
+  "forward_b": {
+    "ground": {
+      "prepTransition": {"forest": 38, "dark": 36, "guillotine": 35, "timegap": 35},
+      "preparation": 30,
+      "activation": 120
+    },
+    "aerial": {
+      "prepTransition": {"forest": 24, "dark": 24, "guillotine": 24, "timegap": 24},
+      "preparation": 28,
+      "activation": 92
+    }
+  },
+  "forward_y": {
+    "ground": {
+      "prepTransition": {"forest": 38, "dark": 36, "guillotine": 35, "timegap": 35},
+      "preparation": 30,
+      "activation": 120
+    },
+    "aerial": {
+      "prepTransition": {"forest": 24, "dark": 24, "guillotine": 24, "timegap": 24},
+      "preparation": 28,
+      "activation": 92
+    }
+  },
+  "back_a": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  },
+  "back_b": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  },
+  "back_x": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  },
+  "back_y": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  },
+  "up_a": {
+    "ground": {
+      "prepTransition": {"forest": 49, "dark": 48, "guillotine": 46, "timegap": 48},
+      "preparation": 39,
+      "activation": 137
+    }
+  },
+  "up_b": {
+    "ground": {
+      "prepTransition": {"forest": 35, "dark": 33, "guillotine": 32, "timegap": 32},
+      "preparation": 100,
+      "activation": 193
+    },
+    "aerial": {
+      "prepTransition": {"forest": 33, "dark": 32, "guillotine": 30, "timegap": 32},
+      "preparation": 100,
+      "activation": 190
+    }
+  },
+  "up_x": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  },
+  "up_y": {
+    "ground": {
+      "prepTransition": {"forest": 40, "dark": 39, "guillotine": 37, "timegap": 39},
+      "preparation": 50,
+      "activation": 333
+    }
+  },
+  "down_a": {
+    "ground": {
+      "prepTransition": {"forest": 46, "dark": 44, "guillotine": 44, "timegap": 43},
+      "preparation": 100,
+      "activation": 379
+    },
+    "aerial": {
+      "prepTransition": {"forest": 47, "dark": 46, "guillotine": 44, "timegap": 46},
+      "preparation": 100,
+      "activation": 347
+    }
+  },
+  "down_b": {
+    "ground": {
+      "prepTransition": {"forest": 32, "dark": 30, "guillotine": 30, "timegap": 29},
+      "preparation": 45,
+      "activation": 168
+    },
+    "aerial": {
+      "prepTransition": {"forest": 23, "dark": 23, "guillotine": 23, "timegap": 23},
+      "preparation": 44,
+      "activation": 158
+    }
+  },
+  "down_x": {
+    "ground": {
+      "prepTransition": {"forest": 29, "dark": 29, "guillotine": 29, "timegap": 29},
+      "preparation": 99,
+      "activation": 401
+    },
+    "aerial": {
+      "prepTransition": {"forest": 29, "dark": 29, "guillotine": 29, "timegap": 29},
+      "preparation": 99,
+      "activation": 287
+    }
+  },
+  "down_y": {
+    "ground": {
+      "prepTransition": {"forest": 41, "dark": 41, "guillotine": 34, "timegap": 37},
+      "preparation": 80,
+      "activation": 320
+    },
+    "aerial": {
+      "prepTransition": {"forest": 28, "dark": 28, "guillotine": 28, "timegap": 28},
+      "preparation": 79,
+      "activation": 306
+    }
+  },
+  "spirit_boost_down_a": {
+    "ground": {
+      "prepTransition": {"forest": 46, "dark": 44, "guillotine": 44, "timegap": 43},
+      "preparation": 100,
+      "activation": 379
+    },
+    "aerial": {
+      "prepTransition": {"forest": 47, "dark": 46, "guillotine": 44, "timegap": 46},
+      "preparation": 100,
+      "activation": 347
+    }
+  },
+  "spirit_boost_down_b": {
+    "ground": {
+      "prepTransition": {"forest": 32, "dark": 30, "guillotine": 30, "timegap": 29},
+      "preparation": 45,
+      "activation": 225
+    },
+    "aerial": {
+      "prepTransition": {"forest": 23, "dark": 23, "guillotine": 23, "timegap": 23},
+      "preparation": 44,
+      "activation": 218
+    }
+  },
+  "spirit_boost_down_x": {
+    "ground": {
+      "prepTransition": {"forest": 29, "dark": 29, "guillotine": 29, "timegap": 29},
+      "preparation": 99,
+      "activation": 401
+    },
+    "aerial": {
+      "prepTransition": {"forest": 29, "dark": 29, "guillotine": 29, "timegap": 29},
+      "preparation": 99,
+      "activation": 287
+    }
+  },
+  "spirit_boost_down_y": {
+    "ground": {
+      "prepTransition": {"forest": 41, "dark": 41, "guillotine": 34, "timegap": 37},
+      "preparation": 80,
+      "activation": 320
+    },
+    "aerial": {
+      "prepTransition": {"forest": 28, "dark": 28, "guillotine": 28, "timegap": 28},
+      "preparation": 79,
+      "activation": 306
+    }
+  },
+  "item_use": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  },
+  "no_action": {
+    "ground": {
+      "prepTransition": {"forest": 0, "dark": 0, "guillotine": 0, "timegap": 0},
+      "preparation": 0,
+      "activation": 0
+    }
+  }
+}

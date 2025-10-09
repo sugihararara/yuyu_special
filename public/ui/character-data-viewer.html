@@ -225,12 +225,39 @@
             event.target.classList.add('active');
 
             try {
-                // Fetch JSON file from public directory
-                const response = await fetch(`/data/characters/${charId}.json`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                const basePath = `/data/characters/${charId}`;
+
+                // Load all 3 files in parallel
+                const [statsResponse, movesResponse, framesResponse] = await Promise.all([
+                    fetch(`${basePath}/stats.json`),
+                    fetch(`${basePath}/moves.json`),
+                    fetch(`${basePath}/frames.json`),
+                ]);
+
+                // Check responses
+                if (!statsResponse.ok) {
+                    throw new Error(`Failed to load stats.json: ${statsResponse.status}`);
                 }
-                const data = await response.json();
+                if (!movesResponse.ok) {
+                    throw new Error(`Failed to load moves.json: ${movesResponse.status}`);
+                }
+                if (!framesResponse.ok) {
+                    throw new Error(`Failed to load frames.json: ${framesResponse.status}`);
+                }
+
+                // Parse JSON
+                const statsData = await statsResponse.json();
+                const movesData = await movesResponse.json();
+                const framesData = await framesResponse.json();
+
+                // Combine into character data
+                const data = {
+                    ...statsData,
+                    moves: movesData.map(move => ({
+                        ...move,
+                        frames: framesData[move.id]
+                    }))
+                };
 
                 // Display data
                 displayCharacterData(data);
@@ -314,29 +341,52 @@
                                 <th>Evasion</th>
                                 <th>Power</th>
                                 <th>Balance</th>
-                                <th>Reiki Cost</th>
-                                <th>Prep (Forest)</th>
+                                <th>Reiki</th>
+                                <th>Variant</th>
+                                <th>森</th>
+                                <th>暗</th>
+                                <th>断</th>
+                                <th>時</th>
                                 <th>Prep F</th>
-                                <th>Activation F</th>
+                                <th>Act F</th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${data.moves.map(move => `
-                                <tr>
-                                    <td>${move.id}</td>
-                                    <td>${move.command}</td>
-                                    <td>${move.name}</td>
-                                    <td>${move.type}</td>
-                                    <td>${move.successRate}</td>
-                                    <td>${move.evasionRate}</td>
-                                    <td>${move.power}</td>
-                                    <td>${move.balanceDrain}</td>
-                                    <td>${move.reikiCost}</td>
-                                    <td>${move.frames.prepTransition.forest}F</td>
-                                    <td>${move.frames.preparation}F</td>
-                                    <td>${move.frames.activation}F</td>
-                                </tr>
-                            `).join('')}
+                            ${data.moves.map(move => {
+                                const hasAerial = move.frames && move.frames.aerial;
+                                const groundRow = `
+                                    <tr>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.id}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.command}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.name}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.type}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.successRate}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.evasionRate}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.power}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.balanceDrain}</td>
+                                        <td rowspan="${hasAerial ? 2 : 1}">${move.reikiCost}</td>
+                                        <td style="color: #66ccff;">地</td>
+                                        <td>${move.frames.ground.prepTransition.forest}F</td>
+                                        <td>${move.frames.ground.prepTransition.dark}F</td>
+                                        <td>${move.frames.ground.prepTransition.guillotine}F</td>
+                                        <td>${move.frames.ground.prepTransition.timegap}F</td>
+                                        <td>${move.frames.ground.preparation}F</td>
+                                        <td>${move.frames.ground.activation}F</td>
+                                    </tr>
+                                `;
+                                const aerialRow = hasAerial ? `
+                                    <tr style="background: #1a2a3a !important;">
+                                        <td style="color: #ff99cc;">空</td>
+                                        <td>${move.frames.aerial.prepTransition.forest}F</td>
+                                        <td>${move.frames.aerial.prepTransition.dark}F</td>
+                                        <td>${move.frames.aerial.prepTransition.guillotine}F</td>
+                                        <td>${move.frames.aerial.prepTransition.timegap}F</td>
+                                        <td>${move.frames.aerial.preparation}F</td>
+                                        <td>${move.frames.aerial.activation}F</td>
+                                    </tr>
+                                ` : '';
+                                return groundRow + aerialRow;
+                            }).join('')}
                         </tbody>
                     </table>
                 </div>

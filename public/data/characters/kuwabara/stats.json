@@ -1,0 +1,21 @@
+{
+  "id": "kuwabara",
+  "name": "桑原",
+  "nameEn": "Kazuma Kuwabara",
+  "canTransform": false,
+
+  "stats": {
+    "defense": 0.234,
+    "realHp": 410,
+    "balanceDefense": 0.656,
+    "realBalance": 390,
+    "airtime": 187,
+    "knockdownDuration": 390,
+    "knockdownDuration30PerSec": 129,
+    "knockdownDuration60PerSec": 77,
+    "knockdownSpeed": 1,
+    "airtimeTouki": 1.55,
+    "poweredPunchRate": 0.082,
+    "cleanHitRate": 0.039
+  }
+}

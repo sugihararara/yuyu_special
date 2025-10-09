@@ -1,0 +1,23 @@
+{
+  "id": "hiei",
+  "name": "飛影",
+  "nameEn": "Hiei",
+  "canTransform": true,
+  "transformInto": "hiei_dragon",
+  "transformCondition": "Successfully absorb reflected Black Dragon Wave",
+
+  "stats": {
+    "defense": 0.230,
+    "realHp": 417,
+    "balanceDefense": 0.500,
+    "realBalance": 512,
+    "airtime": 225,
+    "knockdownDuration": 356,
+    "knockdownDuration30PerSec": 118,
+    "knockdownDuration60PerSec": 71,
+    "knockdownSpeed": 1,
+    "airtimeTouki": 1.86,
+    "poweredPunchRate": 0.082,
+    "cleanHitRate": 0.051
+  }
+}

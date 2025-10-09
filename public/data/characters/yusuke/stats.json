@@ -1,0 +1,21 @@
+{
+  "id": "yusuke",
+  "name": "幽助",
+  "nameEn": "Yusuke Urameshi",
+  "canTransform": false,
+
+  "stats": {
+    "defense": 0.227,
+    "realHp": 424,
+    "balanceDefense": 0.563,
+    "realBalance": 455,
+    "airtime": 187,
+    "knockdownDuration": 356,
+    "knockdownDuration30PerSec": 118,
+    "knockdownDuration60PerSec": 71,
+    "knockdownSpeed": 1,
+    "airtimeTouki": 1.55,
+    "poweredPunchRate": 0.082,
+    "cleanHitRate": 0.039
+  }
+}

@@ -86,31 +86,13 @@ export type MoveId =
   | string;
 
 /**
- * Move/Action data
- * Four core stats (四大性能) for each action
+ * Move/Action data (runtime combined data)
+ * Four core stats (四大性能) for each action + frame data
  */
-export interface MoveData {
-  // Identification
-  id: MoveId;                   // e.g., "forward_a", "down_b"
-  command: string;              // e.g., "→A", "↓B"
-  name: string;                 // Move name (Japanese)
-  nameEn?: string;              // English name
-
-  // Type classification
-  type: MoveType;
-  priority: ActionPriority;
-
-  // Four core stats
-  successRate: number;          // 成功率
-  evasionRate: number;          // 回避率
-  power: number;                // 威力 (HP damage)
-  balanceDrain: number;         // 奪バランス値 (balance damage)
-
-  // Cost
-  reikiCost: number;            // 0-25 (0 for punches/non-spirit moves)
-
+export interface MoveData extends MoveDefinition {
   // Frame data (from 057-モーションフレーム.md)
-  frames: MoveFrameData;
+  // NEW: Now supports ground + aerial variants
+  frames: MoveFrames;
 }
 
 /**
@@ -140,10 +122,10 @@ export type ActionPriority =
   | 'low';         // その他
 
 /**
- * Frame data for a move
+ * Frame timing for a single variant (ground or aerial)
  * Based on 057-モーションフレーム.md
  */
-export interface MoveFrameData {
+export interface FrameTimings {
   // Preparation transition (準備移行F) - stage-dependent
   prepTransition: {
     forest: number;
@@ -157,13 +139,79 @@ export interface MoveFrameData {
 
   // Activation frames (発動F)
   activation: number;
+}
 
+/**
+ * Frame data for a move (ground + optional aerial)
+ */
+export interface MoveFrames {
+  ground: FrameTimings;
+  aerial?: FrameTimings;  // Optional aerial variant
+}
+
+/**
+ * @deprecated Use MoveFrames instead (new split file structure)
+ */
+export interface MoveFrameData extends FrameTimings {
   // Ground vs aerial
   isAerial?: boolean;
 }
 
 /**
- * Complete character data
+ * Stats file structure (stats.json)
+ * Contains metadata + character stats
+ */
+export interface CharacterStatsFile {
+  id: CharacterId;
+  name: string;
+  nameEn: string;
+  canTransform: boolean;
+  transformInto?: CharacterId;
+  transformCondition?: string;
+
+  stats: CharacterStats;
+}
+
+/**
+ * Moves file structure (moves.json)
+ * Array of move definitions (without frame data)
+ */
+export type CharacterMovesFile = MoveDefinition[];
+
+/**
+ * Move definition (without frame data)
+ */
+export interface MoveDefinition {
+  // Identification
+  id: MoveId;
+  command: string;
+  name: string;
+  nameEn?: string;
+
+  // Type classification
+  type: MoveType;
+  priority: ActionPriority;
+
+  // Four core stats
+  successRate: number;
+  evasionRate: number;
+  power: number;
+  balanceDrain: number;
+
+  // Cost
+  reikiCost: number;
+}
+
+/**
+ * Frames file structure (frames.json)
+ * Object keyed by move ID
+ */
+export interface CharacterFramesFile {
+  [moveId: string]: MoveFrames;
+}
+
+/**
+ * Complete character data (runtime combined data)
  */
 export interface CharacterData {
   id: CharacterId;
