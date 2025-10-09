@@ -37,10 +37,10 @@ yuyu_special/
 │   │   ├── KeyboardAdapter.ts    # Local keyboard input
 │   │   └── NetworkAdapter.ts     # PeerJS (future)
 │   │
-│   ├── ui/                        # Rendering layer
-│   │   ├── CanvasRenderer.ts     # Main renderer
-│   │   ├── UIManager.ts          # UI state management
-│   │   └── components/           # UI components
+│   ├── ui/                        # UI rendering layer (TypeScript)
+│   │   ├── CanvasRenderer.ts     # Main renderer (future)
+│   │   ├── UIManager.ts          # UI state management (future)
+│   │   └── components/           # UI components (future)
 │   │       ├── HPBar.ts
 │   │       ├── ToukiMeter.ts
 │   │       └── ...
@@ -52,11 +52,17 @@ yuyu_special/
 │   │
 │   └── main.ts                    # Entry point
 │
+├── public/                        # Static assets (auto-copied to dist/)
+│   └── ui/                        # HTML UI files
+│       ├── game.html              # Main battle UI
+│       ├── battle-ui.html         # Battle UI components
+│       ├── character-select-test.html  # Character selection
+│       └── stage-select-test.html      # Stage selection
+│
 ├── index.html                     # HTML entry point
 ├── package.json                   # Dependencies
 ├── tsconfig.json                  # TypeScript config
-├── vite.config.ts                 # Vite config
-└── yuyuhakusho_ui_mockup.html    # UI reference mockup
+└── vite.config.ts                 # Vite config
 ```
 
 ## Layer Dependencies
