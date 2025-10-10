@@ -8,6 +8,7 @@
  */
 
 import { toukiRenderer } from './ui/renderers/ToukiRenderer';
+import { hpRenderer } from './ui/renderers/HPRenderer';
 
 /**
  * Game modes
@@ -154,6 +155,88 @@ function setupToukiControls(): void {
 }
 
 /**
+ * Setup HP control event listeners
+ */
+function setupHPControls(): void {
+  // Player 1 HP controls
+  const hp1SetBtn = document.getElementById('hp1-set');
+  if (hp1SetBtn) {
+    hp1SetBtn.addEventListener('click', () => {
+      const input = document.getElementById('hp1-input') as HTMLInputElement;
+      if (input) {
+        const value = parseFloat(input.value);
+        hpRenderer.setHP1(value);
+      }
+    });
+  }
+
+  const hp1_0Btn = document.getElementById('hp1-0');
+  if (hp1_0Btn) {
+    hp1_0Btn.addEventListener('click', () => hpRenderer.setHP1(0)); // Defeated
+  }
+
+  const hp1_50Btn = document.getElementById('hp1-50');
+  if (hp1_50Btn) {
+    hp1_50Btn.addEventListener('click', () => hpRenderer.setHP1(48)); // Half HP
+  }
+
+  const hp1_100Btn = document.getElementById('hp1-100');
+  if (hp1_100Btn) {
+    hp1_100Btn.addEventListener('click', () => hpRenderer.setHP1(96)); // Full HP
+  }
+
+  // Player 2 HP controls
+  const hp2SetBtn = document.getElementById('hp2-set');
+  if (hp2SetBtn) {
+    hp2SetBtn.addEventListener('click', () => {
+      const input = document.getElementById('hp2-input') as HTMLInputElement;
+      if (input) {
+        const value = parseFloat(input.value);
+        hpRenderer.setHP2(value);
+      }
+    });
+  }
+
+  const hp2_0Btn = document.getElementById('hp2-0');
+  if (hp2_0Btn) {
+    hp2_0Btn.addEventListener('click', () => hpRenderer.setHP2(0)); // Defeated
+  }
+
+  const hp2_50Btn = document.getElementById('hp2-50');
+  if (hp2_50Btn) {
+    hp2_50Btn.addEventListener('click', () => hpRenderer.setHP2(48)); // Half HP
+  }
+
+  const hp2_100Btn = document.getElementById('hp2-100');
+  if (hp2_100Btn) {
+    hp2_100Btn.addEventListener('click', () => hpRenderer.setHP2(96)); // Full HP
+  }
+
+  // Enter key support
+  const hp1Input = document.getElementById('hp1-input');
+  if (hp1Input) {
+    hp1Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = parseFloat((e.target as HTMLInputElement).value);
+        hpRenderer.setHP1(value);
+      }
+    });
+  }
+
+  const hp2Input = document.getElementById('hp2-input');
+  if (hp2Input) {
+    hp2Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = parseFloat((e.target as HTMLInputElement).value);
+        hpRenderer.setHP2(value);
+      }
+    });
+  }
+
+  console.log('HP controls connected');
+}
+
+/**
  * Setup keyboard shortcuts
  */
 function setupKeyboardShortcuts(): void {
@@ -184,13 +267,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Initialize renderers
   toukiRenderer.initialize();
+  hpRenderer.initialize();
 
   // Setup event listeners
   setupToukiControls();
+  setupHPControls();
   setupKeyboardShortcuts();
 
   console.log('Game initialized! 🎮');
 });
 
-// Expose toukiRenderer globally for debugging
+// Expose renderers globally for debugging
 (window as any).toukiRenderer = toukiRenderer;
+(window as any).hpRenderer = hpRenderer;
