@@ -9,9 +9,9 @@ Build a complete battle flow that works immediately with mock implementations, t
 
 ---
 
-## Phase 1: Battle Flow Skeleton (Week 1)
+## Phase 1: Battle Flow Skeleton ✅ COMPLETE (2025-10-10)
 
-### Step 1.1: Core Battle Flow ⏸️
+### Step 1.1: Core Battle Flow ✅
 **File:** `src/logic/BattleFlow.ts`
 **Dependencies:** Types only
 **What it does:**
@@ -29,7 +29,7 @@ class BattleFlow {
 }
 ```
 
-### Step 1.2: Mock Systems ⏸️
+### Step 1.2: Mock Systems ✅
 Create simple placeholder implementations:
 
 **`src/logic/mocks/MockRNG.ts`**
@@ -47,8 +47,8 @@ Create simple placeholder implementations:
 **`src/logic/mocks/MockDamage.ts`**
 - Simple damage: `power - defense`
 
-### Step 1.3: Integration Test ⏸️
-**File:** `src/test/battleFlowTest.ts` (or in main.ts temporarily)
+### Step 1.3: Integration Test ✅
+**File:** `src/main.ts` (test scenario)
 **Test scenario:**
 ```
 P1: Yusuke, chooses Punch
@@ -241,8 +241,9 @@ After each step:
 
 | System | Status | File | Notes |
 |--------|--------|------|-------|
-| Battle Flow | ⏸️ Not Started | `BattleFlow.ts` | Phase 1.1 |
-| Mock Systems | ⏸️ Not Started | `mocks/*` | Phase 1.2 |
+| Battle Flow | ✅ Done | `BattleFlow.ts` | Phase 1.1 |
+| Mock Systems | ✅ Done | `mocks/*` | Phase 1.2 |
+| Integration Test | ✅ Done | `main.ts` | Phase 1.3 |
 | RNG System | ⏸️ Not Started | `RNGSystem.ts` | Phase 2.1 |
 | Character Stats | ⏸️ Not Started | `CharacterStats.ts` | Phase 2.2 |
 | Touki System | ⏸️ Not Started | `ToukiSystem.ts` | Phase 2.3 |

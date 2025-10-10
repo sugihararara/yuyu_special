@@ -9,11 +9,13 @@
 | Task | Status | Notes |
 |------|--------|-------|
 | Project setup (Vite + TypeScript) | ✅ Done | Vite + TS configured |
-| Type definitions | 🔄 In Progress | Need to create interfaces |
-| Battle flow system | ⏸️ Not Started | |
-| Motion frame timing | ⏸️ Not Started | |
-| Combat calculations | ⏸️ Not Started | |
-| Character stats system | ⏸️ Not Started | |
+| Type definitions | ✅ Done | GameState, BattleTypes, PlayerInput complete |
+| Battle flow system | ✅ Done | BattleFlow.ts with mock systems (Phase 1.1-1.3) |
+| Mock systems | ✅ Done | RNG, Touki, Balance, Combat, Damage |
+| Battle flow test | ✅ Done | Working end-to-end test in main.ts |
+| Motion frame timing | ⏸️ Not Started | Phase 3.1 |
+| Real combat calculations | ⏸️ Not Started | Phase 2 (replace mocks) |
+| Character stats system | ⏸️ Not Started | Phase 2.2 |
 
 ## Phase 2: Local Play
 
@@ -53,4 +55,25 @@
 - ❌ Blocked
 
 ## Current Focus
-Creating stage selection menu and separating game UI.
+**Phase 1 Complete!** ✅ Battle flow working with mock systems.
+
+Next: Phase 2 - Replace mock systems with real implementations (RNG, Touki, Balance, Combat, Damage).
+
+## Latest Milestone (2025-10-10)
+- ✅ Created BattleFlow.ts - main battle orchestrator
+- ✅ Created 5 mock systems (MockRNG, MockTouki, MockBalance, MockCombat, MockDamage)
+- ✅ Integrated mocks into BattleFlow
+- ✅ Built working test scenario (Yusuke vs Kuwabara, 3 turns)
+- ✅ Battle runs end-to-end with damage, touki, balance calculations
+- ✅ **Integrated with UI!** Battle test button in game.html
+- ✅ **Live UI updates!** HP, Touki, Balance, Reiki update in real-time
+- 🎮 Click "Run Battle Test" button to see battles on the actual UI!
+
+## Files Created
+- `src/logic/BattleFlow.ts` - Main battle orchestrator
+- `src/logic/mocks/MockRNG.ts` - Mock random number generator
+- `src/logic/mocks/MockTouki.ts` - Mock touki system
+- `src/logic/mocks/MockBalance.ts` - Mock balance system
+- `src/logic/mocks/MockCombat.ts` - Mock combat calculation
+- `src/logic/mocks/MockDamage.ts` - Mock damage calculation
+- Updated `src/main.ts` with battle test scenario

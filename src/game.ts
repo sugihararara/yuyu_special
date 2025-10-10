@@ -17,6 +17,11 @@ import { buttonLampsRenderer } from './ui/renderers/ButtonLampsRenderer';
 import { battlefieldRenderer } from './ui/renderers/BattlefieldRenderer';
 import { screenScaleRenderer } from './ui/renderers/ScreenScaleRenderer';
 
+// Battle Flow (Phase 1 - with mocks)
+import { BattleFlow } from './logic/BattleFlow';
+import type { PlayerTurnInput } from './types/PlayerInput';
+import type { BattleState } from './types/GameState';
+
 /**
  * Game modes
  */
@@ -768,6 +773,202 @@ function setupBattlefieldControls(): void {
 }
 
 /**
+ * Setup Battle Test controls
+ */
+function setupBattleTestControls(): void {
+  const battleTestBtn = document.getElementById('battle-test-run');
+  if (battleTestBtn) {
+    battleTestBtn.addEventListener('click', () => {
+      console.log('\n🎮 Starting Battle Test...\n');
+      runBattleTest();
+    });
+  }
+
+  console.log('Battle Test controls connected');
+}
+
+/**
+ * Run battle test with BattleFlow
+ */
+function runBattleTest(): void {
+  // Create battle
+  const battle = new BattleFlow('yusuke', 'kuwabara', 'forest');
+
+  battlefieldRenderer.setMessage('Battle Start: Yusuke vs Kuwabara');
+
+  // Turn 1: Both punch (with touki charging animation)
+  console.log('=== TURN 1 ===');
+  battlefieldRenderer.setMessage('Turn 1: Charging touki...');
+
+  // Animate touki charging for turn 1
+  animateToukiCharge(30, 40, () => {
+    const turn1P1Input: PlayerTurnInput = {
+      toukiCharge: { isCharging: true, direction: '→', chargeFrames: 60 },
+      command: { direction: '→', button: 'A', timestamp: 60 },
+      useItem: false,
+    };
+
+    const turn1P2Input: PlayerTurnInput = {
+      toukiCharge: { isCharging: true, direction: '→', chargeFrames: 80 },
+      command: { direction: '→', button: 'A', timestamp: 80 },
+      useItem: false,
+    };
+
+    const result1 = battle.processTurn(turn1P1Input, turn1P2Input);
+    updateUIFromBattleState(result1.battleState, result1.message);
+    console.log(result1.message);
+
+    // Turn 2 after delay
+    setTimeout(() => {
+      console.log('\n=== TURN 2 ===');
+      battlefieldRenderer.setMessage('Turn 2: Charging touki...');
+
+      // Animate touki charging for turn 2
+      animateToukiCharge(45, 35, () => {
+        const turn2P1Input: PlayerTurnInput = {
+          toukiCharge: { isCharging: true, direction: '→', chargeFrames: 90 },
+          command: { direction: '→', button: 'B', timestamp: 90 },
+          useItem: false,
+        };
+
+        const turn2P2Input: PlayerTurnInput = {
+          toukiCharge: { isCharging: true, direction: '↓', chargeFrames: 70 },
+          command: { direction: '↓', button: 'A', timestamp: 100 },
+          useItem: false,
+        };
+
+        const result2 = battle.processTurn(turn2P1Input, turn2P2Input);
+        updateUIFromBattleState(result2.battleState, result2.message);
+        console.log(result2.message);
+
+        // Turn 3 after another delay
+        setTimeout(() => {
+          console.log('\n=== TURN 3 ===');
+          battlefieldRenderer.setMessage('Turn 3: Charging touki...');
+
+          // Animate touki charging for turn 3
+          animateToukiCharge(50, 50, () => {
+            const turn3P1Input: PlayerTurnInput = {
+              toukiCharge: { isCharging: true, direction: '↑', chargeFrames: 100 },
+              command: { direction: '↑', button: 'X', timestamp: 100 },
+              useItem: false,
+            };
+
+            const turn3P2Input: PlayerTurnInput = {
+              toukiCharge: { isCharging: true, direction: '↑', chargeFrames: 100 },
+              command: { direction: '↑', button: 'X', timestamp: 105 },
+              useItem: false,
+            };
+
+            const result3 = battle.processTurn(turn3P1Input, turn3P2Input);
+            updateUIFromBattleState(result3.battleState, result3.message);
+            console.log(result3.message);
+
+            // Final message
+            setTimeout(() => {
+              if (result3.battleState.matchOver) {
+                battlefieldRenderer.setMessage(`Winner: Player ${result3.battleState.winner}!`);
+              } else {
+                battlefieldRenderer.setMessage('Battle Test Complete! Check console for details.');
+              }
+              console.log('\n✅ Battle Test Complete!\n');
+            }, 1000);
+          });
+        }, 1500);
+      });
+    }, 1500);
+  });
+}
+
+/**
+ * Animate touki charging for both players
+ */
+function animateToukiCharge(p1Target: number, p2Target: number, onComplete: () => void): void {
+  const duration = 800; // 800ms charging animation
+  const steps = 30; // 30 steps for smooth animation
+  const stepDuration = duration / steps;
+
+  let currentStep = 0;
+  const p1Start = toukiRenderer.getTouki1();
+  const p2Start = toukiRenderer.getTouki2();
+
+  const interval = setInterval(() => {
+    currentStep++;
+    const progress = currentStep / steps;
+
+    // Ease-in-out animation
+    const eased = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    const p1Current = p1Start + (p1Target - p1Start) * eased;
+    const p2Current = p2Start + (p2Target - p2Start) * eased;
+
+    toukiRenderer.setTouki1(p1Current);
+    toukiRenderer.setTouki2(p2Current);
+
+    if (currentStep >= steps) {
+      clearInterval(interval);
+      toukiRenderer.setTouki1(p1Target);
+      toukiRenderer.setTouki2(p2Target);
+      onComplete();
+    }
+  }, stepDuration);
+}
+
+/**
+ * Update all UI renderers from battle state
+ */
+function updateUIFromBattleState(state: BattleState, message: string): void {
+  // Update HP
+  hpRenderer.setHP1(state.player1.hp);
+  hpRenderer.setHP2(state.player2.hp);
+
+  // Update Touki
+  toukiRenderer.setTouki1(state.player1.touki);
+  toukiRenderer.setTouki2(state.player2.touki);
+
+  // Update Balance
+  balanceRenderer.setBalance1(state.player1.balance);
+  balanceRenderer.setBalance2(state.player2.balance);
+
+  // Update Reiki
+  reikiRenderer.setReiki1(state.player1.reiki);
+  reikiRenderer.setReiki2(state.player2.reiki);
+
+  // Update Crystal Ball if reward exists
+  if (state.crystalBallReward) {
+    if (state.crystalBallReward.type === 'reiki') {
+      crystalBallRenderer.setCrystalReiki(state.crystalBallReward.amount);
+    } else if (state.crystalBallReward.type === 'item') {
+      // Map item to display string
+      const itemMap: Record<string, string> = {
+        '霊大': '霊(大)',
+        '霊小': '霊(小)',
+        '気大': '気(大)',
+        '気小': '気(小)',
+        '愛大': '愛(大)',
+        '愛小': '愛(小)',
+      };
+      const itemText = itemMap[state.crystalBallReward.item] || '';
+      crystalBallRenderer.setCrystalItem(itemText);
+    }
+  }
+
+  // Update message
+  battlefieldRenderer.setMessage(message);
+
+  // Update input lamps based on initiative
+  if (state.firstPlayer === 1) {
+    inputLampRenderer.setLamp1Blue();  // First player
+    inputLampRenderer.setLamp2Yellow(); // Second player
+  } else if (state.firstPlayer === 2) {
+    inputLampRenderer.setLamp1Yellow(); // Second player
+    inputLampRenderer.setLamp2Blue();  // First player
+  }
+}
+
+/**
  * Setup Screen Scale control event listeners
  */
 function setupScreenScaleControls(): void {
@@ -849,6 +1050,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupButtonLampsControls();
   setupBattlefieldControls();
   setupScreenScaleControls();
+  setupBattleTestControls(); // Battle Test (Phase 1)
   setupKeyboardShortcuts();
 
   console.log('Game initialized! 🎮');
