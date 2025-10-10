@@ -22,7 +22,7 @@ yuyu_special/
 │   │
 │   ├── logic/                     # Core game engine (no UI, no network)
 │   │   ├── BattleFlow.ts         # Turn management, action priority
-│   │   ├── MotionFrame.ts        # Frame timing system
+│   │   ├── MotionFrameSystem.ts  # Frame timing system
 │   │   ├── ToukiSystem.ts        # Fighting spirit calculations
 │   │   ├── BalanceSystem.ts      # Balance/knockdown system
 │   │   ├── CombatCalculation.ts  # Success/evasion calculations
@@ -30,7 +30,13 @@ yuyu_special/
 │   │   ├── ReikiSystem.ts        # Spiritual energy management
 │   │   ├── CharacterStats.ts     # Character stat loading
 │   │   ├── RNGSystem.ts          # Random number corrections
-│   │   └── RewardSystem.ts       # Crystal ball rewards
+│   │   ├── RewardSystem.ts       # Crystal ball rewards
+│   │   └── mocks/                # Temporary mock implementations
+│   │       ├── MockRNG.ts
+│   │       ├── MockTouki.ts
+│   │       ├── MockBalance.ts
+│   │       ├── MockCombat.ts
+│   │       └── MockDamage.ts
 │   │
 │   ├── input/                     # Input adapters
 │   │   ├── InputAdapter.ts       # Interface
@@ -38,11 +44,11 @@ yuyu_special/
 │   │   └── NetworkAdapter.ts     # PeerJS (future)
 │   │
 │   ├── ui/                        # UI rendering layer (TypeScript)
-│   │   ├── CanvasRenderer.ts     # Main renderer (future)
-│   │   ├── UIManager.ts          # UI state management (future)
-│   │   └── components/           # UI components (future)
-│   │       ├── HPBar.ts
-│   │       ├── ToukiMeter.ts
+│   │   └── renderers/            # UI rendering components
+│   │       ├── HPRenderer.ts
+│   │       ├── ToukiRenderer.ts
+│   │       ├── BalanceRenderer.ts
+│   │       ├── ReikiRenderer.ts
 │   │       └── ...
 │   │
 │   ├── data/                      # Game data

@@ -57,6 +57,11 @@ src/
 
 ## 📖 Documentation
 
+### Project Docs
+- **[STATUS.md](./STATUS.md)** - Current development status
+- **[IMPLEMENTATION_PLAN.md](./docs/IMPLEMENTATION_PLAN.md)** - Detailed implementation roadmap
+- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** - Code architecture & design principles
+
 ### Specifications
 - **`docs/spec/ui/`** - UI element specifications
 - **`docs/spec/logic/`** - Game logic specifications

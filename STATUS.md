@@ -1,6 +1,8 @@
 # Development Status
 
-**Last Updated:** 2025-10-09
+**Last Updated:** 2025-10-10
+
+> **Note:** This tracks current progress. See [IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md) for the detailed roadmap.
 
 ## Phase 1: Core Systems
 
