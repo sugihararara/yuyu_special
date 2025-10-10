@@ -78,16 +78,19 @@ Replace mocks one by one, testing after each replacement.
 
 **Test:** ✅ Tested with battle test - damage varies each turn!
 
-### Step 2.2: Character Stats System ⏸️
-**File:** `src/logic/CharacterStats.ts`
+### Step 2.2: Character Stats System ✅ COMPLETE
+**File:** `src/logic/CharacterStatsSystem.ts`
 **Spec:** `docs/spec/logic/08_character_stats.md`
 **Dependencies:** `src/data/characterLoader.ts` (already exists!)
 **Key features:**
-- Load character base stats
-- Provide move data (4 core stats per move)
-- Handle character transformations
+- ✅ Load character base stats from JSON files
+- ✅ Provide move data (4 core stats per move)
+- ✅ Handle character transformations
+- ✅ Async loading with preload support
+- ✅ Move lookup by command or ID
+- ✅ 3 characters available: Yusuke, Kuwabara, Hiei
 
-**Test:** Load Yusuke's stats, verify punch has correct base values
+**Test:** ✅ Integrated with BattleFlow - real character stats used in battles!
 
 ### Step 2.3: Touki System ⏸️
 **File:** `src/logic/ToukiSystem.ts`
@@ -261,7 +264,7 @@ All Phase 1 goals exceeded! Delivered:
 | Mock Systems | ✅ Done | `mocks/*` | Phase 1.2 |
 | Integration Test | ✅ Done | `game.ts` | Phase 1.3 (interactive UI) |
 | RNG System | ✅ Done | `RNGSystem.ts` | Phase 2.1 ✅ |
-| Character Stats | ⏸️ Not Started | `CharacterStats.ts` | Phase 2.2 |
+| Character Stats | ✅ Done | `CharacterStatsSystem.ts` | Phase 2.2 ✅ |
 | Touki System | ⏸️ Not Started | `ToukiSystem.ts` | Phase 2.3 |
 | Balance System | ⏸️ Not Started | `BalanceSystem.ts` | Phase 2.4 |
 | Combat Calculation | ⏸️ Not Started | `CombatCalculation.ts` | Phase 2.5 |

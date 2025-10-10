@@ -19,6 +19,7 @@ import type { PlayerTurnInput } from '../types/PlayerInput';
 
 // Real systems (Phase 2)
 import { RNGSystem } from './RNGSystem';
+import { CharacterStatsSystem } from './CharacterStatsSystem';
 
 // Mock systems (temporary - will be replaced in Phase 2)
 import { MockTouki } from './mocks/MockTouki';
@@ -42,11 +43,12 @@ export class BattleFlow {
   private battleState: BattleState;
 
   // Systems (✅ = real implementation, mock = temporary)
-  private rng: RNGSystem;        // ✅ Phase 2.1 - Real RNG System
-  private touki: MockTouki;      // TODO: Phase 2.3
-  private balance: MockBalance;  // TODO: Phase 2.4
-  private combat: MockCombat;    // TODO: Phase 2.5
-  private damage: MockDamage;    // TODO: Phase 2.6
+  private rng: RNGSystem;            // ✅ Phase 2.1 - Real RNG System
+  private characterStats: CharacterStatsSystem; // ✅ Phase 2.2 - Real Character Stats
+  private touki: MockTouki;          // TODO: Phase 2.3
+  private balance: MockBalance;      // TODO: Phase 2.4
+  private combat: MockCombat;        // TODO: Phase 2.5
+  private damage: MockDamage;        // TODO: Phase 2.6
 
   constructor(
     player1CharacterId: string,
@@ -61,11 +63,24 @@ export class BattleFlow {
     );
 
     // Initialize systems
-    this.rng = new RNGSystem();    // ✅ Real implementation
+    this.rng = new RNGSystem();                 // ✅ Real implementation
+    this.characterStats = new CharacterStatsSystem(); // ✅ Real implementation
     this.touki = new MockTouki();
     this.balance = new MockBalance();
     this.combat = new MockCombat();
     this.damage = new MockDamage();
+  }
+
+  /**
+   * Load character data asynchronously
+   * IMPORTANT: Must be called after constructor, before first turn!
+   */
+  async loadCharacters(): Promise<void> {
+    const p1Id = this.battleState.player1.characterId;
+    const p2Id = this.battleState.player2.characterId;
+
+    await this.characterStats.preloadCharacters([p1Id as any, p2Id as any]);
+    console.log(`✅ Characters loaded: ${p1Id} vs ${p2Id}`);
   }
 
   /**
@@ -329,18 +344,20 @@ export class BattleFlow {
 
   /**
    * TEMPORARY: Mock battle outcome
-   * Will be replaced by real CombatCalculation + DamageCalculation
+   * Now uses REAL character stats! (Phase 2.2)
+   * Still uses mock combat/damage calculations (will be replaced in Phase 2.5/2.6)
    */
   private mockBattleOutcome(): BattleOutcome {
     const isP1First = this.battleState.firstPlayer === 1;
 
-    // Get mock move stats
-    const p1Stats = this.combat.getMockMoveStats(
-      this.battleState.player1.currentCommand ?? '→A'
-    );
-    const p2Stats = this.combat.getMockMoveStats(
-      this.battleState.player2.currentCommand ?? '→A'
-    );
+    // ✅ Get REAL move stats from character data (Phase 2.2)
+    const p1CharId = this.battleState.player1.characterId;
+    const p2CharId = this.battleState.player2.characterId;
+    const p1Command = this.battleState.player1.currentCommand ?? '→A';
+    const p2Command = this.battleState.player2.currentCommand ?? '→A';
+
+    const p1Stats = this.characterStats.getMoveStats(p1CharId as any, p1Command);
+    const p2Stats = this.characterStats.getMoveStats(p2CharId as any, p2Command);
 
     // Apply mock corrections (touki, rng, balance)
     const p1ToukiCorr = this.touki.getCorrection(this.battleState.player1.touki);

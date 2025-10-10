@@ -790,11 +790,20 @@ function setupBattleTestControls(): void {
 /**
  * Run battle test with BattleFlow
  */
-function runBattleTest(): void {
+async function runBattleTest(): Promise<void> {
   // Create battle
   const battle = new BattleFlow('yusuke', 'kuwabara', 'forest');
 
-  battlefieldRenderer.setMessage('Battle Start: Yusuke vs Kuwabara');
+  // ✅ Phase 2.2: Load character data before battle starts
+  battlefieldRenderer.setMessage('Loading characters...');
+  try {
+    await battle.loadCharacters();
+    battlefieldRenderer.setMessage('Battle Start: Yusuke vs Kuwabara');
+  } catch (error) {
+    console.error('Failed to load characters:', error);
+    battlefieldRenderer.setMessage('Error: Failed to load character data');
+    return;
+  }
 
   // Turn 1: Both punch (with touki charging animation)
   console.log('=== TURN 1 ===');
