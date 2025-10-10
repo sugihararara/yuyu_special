@@ -9,6 +9,13 @@
 
 import { toukiRenderer } from './ui/renderers/ToukiRenderer';
 import { hpRenderer } from './ui/renderers/HPRenderer';
+import { balanceRenderer } from './ui/renderers/BalanceRenderer';
+import { reikiRenderer } from './ui/renderers/ReikiRenderer';
+import { crystalBallRenderer } from './ui/renderers/CrystalBallRenderer';
+import { inputLampRenderer } from './ui/renderers/InputLampRenderer';
+import { buttonLampsRenderer } from './ui/renderers/ButtonLampsRenderer';
+import { battlefieldRenderer } from './ui/renderers/BattlefieldRenderer';
+import { screenScaleRenderer } from './ui/renderers/ScreenScaleRenderer';
 
 /**
  * Game modes
@@ -237,6 +244,562 @@ function setupHPControls(): void {
 }
 
 /**
+ * Setup Balance control event listeners
+ */
+function setupBalanceControls(): void {
+  // Player 1 Balance controls
+  const balance1SetBtn = document.getElementById('balance1-set');
+  if (balance1SetBtn) {
+    balance1SetBtn.addEventListener('click', () => {
+      const input = document.getElementById('balance1-input') as HTMLInputElement;
+      if (input) {
+        const value = parseFloat(input.value);
+        balanceRenderer.setBalance1(value);
+      }
+    });
+  }
+
+  const balance1_0Btn = document.getElementById('balance1-0');
+  if (balance1_0Btn) {
+    balance1_0Btn.addEventListener('click', () => balanceRenderer.setBalance1(0)); // No damage (full bar)
+  }
+
+  const balance1_50Btn = document.getElementById('balance1-50');
+  if (balance1_50Btn) {
+    balance1_50Btn.addEventListener('click', () => balanceRenderer.setBalance1(128)); // Half damage
+  }
+
+  const balance1_100Btn = document.getElementById('balance1-100');
+  if (balance1_100Btn) {
+    balance1_100Btn.addEventListener('click', () => balanceRenderer.setBalance1(255)); // Knocked down
+  }
+
+  // Player 2 Balance controls
+  const balance2SetBtn = document.getElementById('balance2-set');
+  if (balance2SetBtn) {
+    balance2SetBtn.addEventListener('click', () => {
+      const input = document.getElementById('balance2-input') as HTMLInputElement;
+      if (input) {
+        const value = parseFloat(input.value);
+        balanceRenderer.setBalance2(value);
+      }
+    });
+  }
+
+  const balance2_0Btn = document.getElementById('balance2-0');
+  if (balance2_0Btn) {
+    balance2_0Btn.addEventListener('click', () => balanceRenderer.setBalance2(0)); // No damage (full bar)
+  }
+
+  const balance2_50Btn = document.getElementById('balance2-50');
+  if (balance2_50Btn) {
+    balance2_50Btn.addEventListener('click', () => balanceRenderer.setBalance2(128)); // Half damage
+  }
+
+  const balance2_100Btn = document.getElementById('balance2-100');
+  if (balance2_100Btn) {
+    balance2_100Btn.addEventListener('click', () => balanceRenderer.setBalance2(255)); // Knocked down
+  }
+
+  // Enter key support
+  const balance1Input = document.getElementById('balance1-input');
+  if (balance1Input) {
+    balance1Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = parseFloat((e.target as HTMLInputElement).value);
+        balanceRenderer.setBalance1(value);
+      }
+    });
+  }
+
+  const balance2Input = document.getElementById('balance2-input');
+  if (balance2Input) {
+    balance2Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = parseFloat((e.target as HTMLInputElement).value);
+        balanceRenderer.setBalance2(value);
+      }
+    });
+  }
+
+  console.log('Balance controls connected');
+}
+
+/**
+ * Setup Reiki and Item control event listeners
+ */
+function setupReikiControls(): void {
+  // ========================================
+  // Player 1 Item controls
+  // ========================================
+  const item1None = document.getElementById('item1-none');
+  if (item1None) {
+    item1None.addEventListener('click', () => reikiRenderer.setItem1(''));
+  }
+
+  const item1AiSmall = document.getElementById('item1-ai-small');
+  if (item1AiSmall) {
+    item1AiSmall.addEventListener('click', () => reikiRenderer.setItem1('愛(小)'));
+  }
+
+  const item1AiLarge = document.getElementById('item1-ai-large');
+  if (item1AiLarge) {
+    item1AiLarge.addEventListener('click', () => reikiRenderer.setItem1('愛(大)'));
+  }
+
+  const item1KiSmall = document.getElementById('item1-ki-small');
+  if (item1KiSmall) {
+    item1KiSmall.addEventListener('click', () => reikiRenderer.setItem1('気(小)'));
+  }
+
+  const item1KiLarge = document.getElementById('item1-ki-large');
+  if (item1KiLarge) {
+    item1KiLarge.addEventListener('click', () => reikiRenderer.setItem1('気(大)'));
+  }
+
+  const item1ReiSmall = document.getElementById('item1-rei-small');
+  if (item1ReiSmall) {
+    item1ReiSmall.addEventListener('click', () => reikiRenderer.setItem1('霊(小)'));
+  }
+
+  const item1ReiLarge = document.getElementById('item1-rei-large');
+  if (item1ReiLarge) {
+    item1ReiLarge.addEventListener('click', () => reikiRenderer.setItem1('霊(大)'));
+  }
+
+  // ========================================
+  // Player 1 Reiki controls
+  // ========================================
+  const reiki1SetBtn = document.getElementById('reiki1-set');
+  if (reiki1SetBtn) {
+    reiki1SetBtn.addEventListener('click', () => {
+      const input = document.getElementById('reiki1-input') as HTMLInputElement;
+      if (input) {
+        const value = parseInt(input.value);
+        reikiRenderer.setReiki1(value);
+      }
+    });
+  }
+
+  const reiki1_0Btn = document.getElementById('reiki1-0');
+  if (reiki1_0Btn) {
+    reiki1_0Btn.addEventListener('click', () => reikiRenderer.setReiki1(0));
+  }
+
+  const reiki1_20Btn = document.getElementById('reiki1-20');
+  if (reiki1_20Btn) {
+    reiki1_20Btn.addEventListener('click', () => reikiRenderer.setReiki1(20));
+  }
+
+  const reiki1_25Btn = document.getElementById('reiki1-25');
+  if (reiki1_25Btn) {
+    reiki1_25Btn.addEventListener('click', () => reikiRenderer.setReiki1(25));
+  }
+
+  // ========================================
+  // Player 2 Item controls
+  // ========================================
+  const item2None = document.getElementById('item2-none');
+  if (item2None) {
+    item2None.addEventListener('click', () => reikiRenderer.setItem2(''));
+  }
+
+  const item2AiSmall = document.getElementById('item2-ai-small');
+  if (item2AiSmall) {
+    item2AiSmall.addEventListener('click', () => reikiRenderer.setItem2('愛(小)'));
+  }
+
+  const item2AiLarge = document.getElementById('item2-ai-large');
+  if (item2AiLarge) {
+    item2AiLarge.addEventListener('click', () => reikiRenderer.setItem2('愛(大)'));
+  }
+
+  const item2KiSmall = document.getElementById('item2-ki-small');
+  if (item2KiSmall) {
+    item2KiSmall.addEventListener('click', () => reikiRenderer.setItem2('気(小)'));
+  }
+
+  const item2KiLarge = document.getElementById('item2-ki-large');
+  if (item2KiLarge) {
+    item2KiLarge.addEventListener('click', () => reikiRenderer.setItem2('気(大)'));
+  }
+
+  const item2ReiSmall = document.getElementById('item2-rei-small');
+  if (item2ReiSmall) {
+    item2ReiSmall.addEventListener('click', () => reikiRenderer.setItem2('霊(小)'));
+  }
+
+  const item2ReiLarge = document.getElementById('item2-rei-large');
+  if (item2ReiLarge) {
+    item2ReiLarge.addEventListener('click', () => reikiRenderer.setItem2('霊(大)'));
+  }
+
+  // ========================================
+  // Player 2 Reiki controls
+  // ========================================
+  const reiki2SetBtn = document.getElementById('reiki2-set');
+  if (reiki2SetBtn) {
+    reiki2SetBtn.addEventListener('click', () => {
+      const input = document.getElementById('reiki2-input') as HTMLInputElement;
+      if (input) {
+        const value = parseInt(input.value);
+        reikiRenderer.setReiki2(value);
+      }
+    });
+  }
+
+  const reiki2_0Btn = document.getElementById('reiki2-0');
+  if (reiki2_0Btn) {
+    reiki2_0Btn.addEventListener('click', () => reikiRenderer.setReiki2(0));
+  }
+
+  const reiki2_20Btn = document.getElementById('reiki2-20');
+  if (reiki2_20Btn) {
+    reiki2_20Btn.addEventListener('click', () => reikiRenderer.setReiki2(20));
+  }
+
+  const reiki2_25Btn = document.getElementById('reiki2-25');
+  if (reiki2_25Btn) {
+    reiki2_25Btn.addEventListener('click', () => reikiRenderer.setReiki2(25));
+  }
+
+  // ========================================
+  // Enter key support
+  // ========================================
+  const reiki1Input = document.getElementById('reiki1-input');
+  if (reiki1Input) {
+    reiki1Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = parseInt((e.target as HTMLInputElement).value);
+        reikiRenderer.setReiki1(value);
+      }
+    });
+  }
+
+  const reiki2Input = document.getElementById('reiki2-input');
+  if (reiki2Input) {
+    reiki2Input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const value = parseInt((e.target as HTMLInputElement).value);
+        reikiRenderer.setReiki2(value);
+      }
+    });
+  }
+
+  console.log('Reiki and Item controls connected');
+}
+
+/**
+ * Setup Crystal Ball control event listeners
+ */
+function setupCrystalBallControls(): void {
+  // Item controls
+  const crystalItemNone = document.getElementById('crystal-item-none');
+  if (crystalItemNone) {
+    crystalItemNone.addEventListener('click', () => crystalBallRenderer.setCrystalItem(''));
+  }
+
+  const crystalItemAiSmall = document.getElementById('crystal-item-ai-small');
+  if (crystalItemAiSmall) {
+    crystalItemAiSmall.addEventListener('click', () => crystalBallRenderer.setCrystalItem('愛(小)'));
+  }
+
+  const crystalItemAiLarge = document.getElementById('crystal-item-ai-large');
+  if (crystalItemAiLarge) {
+    crystalItemAiLarge.addEventListener('click', () => crystalBallRenderer.setCrystalItem('愛(大)'));
+  }
+
+  const crystalItemKiSmall = document.getElementById('crystal-item-ki-small');
+  if (crystalItemKiSmall) {
+    crystalItemKiSmall.addEventListener('click', () => crystalBallRenderer.setCrystalItem('気(小)'));
+  }
+
+  const crystalItemKiLarge = document.getElementById('crystal-item-ki-large');
+  if (crystalItemKiLarge) {
+    crystalItemKiLarge.addEventListener('click', () => crystalBallRenderer.setCrystalItem('気(大)'));
+  }
+
+  const crystalItemReiSmall = document.getElementById('crystal-item-rei-small');
+  if (crystalItemReiSmall) {
+    crystalItemReiSmall.addEventListener('click', () => crystalBallRenderer.setCrystalItem('霊(小)'));
+  }
+
+  const crystalItemReiLarge = document.getElementById('crystal-item-rei-large');
+  if (crystalItemReiLarge) {
+    crystalItemReiLarge.addEventListener('click', () => crystalBallRenderer.setCrystalItem('霊(大)'));
+  }
+
+  // Reiki orb count controls
+  const crystalReiki2 = document.getElementById('crystal-reiki-2');
+  if (crystalReiki2) {
+    crystalReiki2.addEventListener('click', () => crystalBallRenderer.setCrystalReiki(2));
+  }
+
+  const crystalReiki3 = document.getElementById('crystal-reiki-3');
+  if (crystalReiki3) {
+    crystalReiki3.addEventListener('click', () => crystalBallRenderer.setCrystalReiki(3));
+  }
+
+  const crystalReiki4 = document.getElementById('crystal-reiki-4');
+  if (crystalReiki4) {
+    crystalReiki4.addEventListener('click', () => crystalBallRenderer.setCrystalReiki(4));
+  }
+
+  const crystalReiki5 = document.getElementById('crystal-reiki-5');
+  if (crystalReiki5) {
+    crystalReiki5.addEventListener('click', () => crystalBallRenderer.setCrystalReiki(5));
+  }
+
+  const crystalReiki6 = document.getElementById('crystal-reiki-6');
+  if (crystalReiki6) {
+    crystalReiki6.addEventListener('click', () => crystalBallRenderer.setCrystalReiki(6));
+  }
+
+  // Clear control
+  const crystalClear = document.getElementById('crystal-clear');
+  if (crystalClear) {
+    crystalClear.addEventListener('click', () => crystalBallRenderer.clearCrystal());
+  }
+
+  console.log('Crystal Ball controls connected');
+}
+
+/**
+ * Setup Input Lamp control event listeners
+ */
+function setupInputLampControls(): void {
+  // Player 1 lamp controls
+  const lamp1Blue = document.getElementById('lamp1-blue');
+  if (lamp1Blue) {
+    lamp1Blue.addEventListener('click', () => inputLampRenderer.setLamp1Blue());
+  }
+
+  const lamp1Yellow = document.getElementById('lamp1-yellow');
+  if (lamp1Yellow) {
+    lamp1Yellow.addEventListener('click', () => inputLampRenderer.setLamp1Yellow());
+  }
+
+  const lamp1Red = document.getElementById('lamp1-red');
+  if (lamp1Red) {
+    lamp1Red.addEventListener('click', () => inputLampRenderer.setLamp1Red());
+  }
+
+  // Player 2 lamp controls
+  const lamp2Blue = document.getElementById('lamp2-blue');
+  if (lamp2Blue) {
+    lamp2Blue.addEventListener('click', () => inputLampRenderer.setLamp2Blue());
+  }
+
+  const lamp2Yellow = document.getElementById('lamp2-yellow');
+  if (lamp2Yellow) {
+    lamp2Yellow.addEventListener('click', () => inputLampRenderer.setLamp2Yellow());
+  }
+
+  const lamp2Red = document.getElementById('lamp2-red');
+  if (lamp2Red) {
+    lamp2Red.addEventListener('click', () => inputLampRenderer.setLamp2Red());
+  }
+
+  console.log('Input Lamp controls connected');
+}
+
+/**
+ * Setup Button Lamps control event listeners
+ */
+function setupButtonLampsControls(): void {
+  // Player 1 button controls
+  const btn1All = document.getElementById('btn1-all');
+  if (btn1All) {
+    btn1All.addEventListener('click', () => buttonLampsRenderer.setAllButtons1(true));
+  }
+
+  const btn1None = document.getElementById('btn1-none');
+  if (btn1None) {
+    btn1None.addEventListener('click', () => buttonLampsRenderer.setAllButtons1(false));
+  }
+
+  const btn1ToggleA = document.getElementById('btn1-toggle-a');
+  if (btn1ToggleA) {
+    btn1ToggleA.addEventListener('click', () => buttonLampsRenderer.toggleButton1A());
+  }
+
+  const btn1ToggleB = document.getElementById('btn1-toggle-b');
+  if (btn1ToggleB) {
+    btn1ToggleB.addEventListener('click', () => buttonLampsRenderer.toggleButton1B());
+  }
+
+  const btn1ToggleX = document.getElementById('btn1-toggle-x');
+  if (btn1ToggleX) {
+    btn1ToggleX.addEventListener('click', () => buttonLampsRenderer.toggleButton1X());
+  }
+
+  const btn1ToggleY = document.getElementById('btn1-toggle-y');
+  if (btn1ToggleY) {
+    btn1ToggleY.addEventListener('click', () => buttonLampsRenderer.toggleButton1Y());
+  }
+
+  // Player 2 button controls
+  const btn2All = document.getElementById('btn2-all');
+  if (btn2All) {
+    btn2All.addEventListener('click', () => buttonLampsRenderer.setAllButtons2(true));
+  }
+
+  const btn2None = document.getElementById('btn2-none');
+  if (btn2None) {
+    btn2None.addEventListener('click', () => buttonLampsRenderer.setAllButtons2(false));
+  }
+
+  const btn2ToggleA = document.getElementById('btn2-toggle-a');
+  if (btn2ToggleA) {
+    btn2ToggleA.addEventListener('click', () => buttonLampsRenderer.toggleButton2A());
+  }
+
+  const btn2ToggleB = document.getElementById('btn2-toggle-b');
+  if (btn2ToggleB) {
+    btn2ToggleB.addEventListener('click', () => buttonLampsRenderer.toggleButton2B());
+  }
+
+  const btn2ToggleX = document.getElementById('btn2-toggle-x');
+  if (btn2ToggleX) {
+    btn2ToggleX.addEventListener('click', () => buttonLampsRenderer.toggleButton2X());
+  }
+
+  const btn2ToggleY = document.getElementById('btn2-toggle-y');
+  if (btn2ToggleY) {
+    btn2ToggleY.addEventListener('click', () => buttonLampsRenderer.toggleButton2Y());
+  }
+
+  console.log('Button Lamps controls connected');
+}
+
+/**
+ * Setup Battlefield and Message control event listeners
+ */
+function setupBattlefieldControls(): void {
+  // Mode switching buttons
+  const modeSplit = document.getElementById('mode-split');
+  if (modeSplit) {
+    modeSplit.addEventListener('click', () => {
+      battlefieldRenderer.setBattlefieldMode('split');
+    });
+  }
+
+  const modeSingle = document.getElementById('mode-single');
+  if (modeSingle) {
+    modeSingle.addEventListener('click', () => {
+      battlefieldRenderer.setBattlefieldMode('single');
+    });
+  }
+
+  const modeBgTest = document.getElementById('mode-bg-test');
+  if (modeBgTest) {
+    modeBgTest.addEventListener('click', () => {
+      battlefieldRenderer.setTestBackground();
+    });
+  }
+
+  // Character blink controls
+  const blink1p = document.getElementById('blink-1p');
+  if (blink1p) {
+    blink1p.addEventListener('click', () => {
+      battlefieldRenderer.setCharacterBlink('1p');
+    });
+  }
+
+  const blink2p = document.getElementById('blink-2p');
+  if (blink2p) {
+    blink2p.addEventListener('click', () => {
+      battlefieldRenderer.setCharacterBlink('2p');
+    });
+  }
+
+  const blinkNone = document.getElementById('blink-none');
+  if (blinkNone) {
+    blinkNone.addEventListener('click', () => {
+      battlefieldRenderer.setCharacterBlink('none');
+    });
+  }
+
+  // Message controls
+  const messageSet = document.getElementById('message-set');
+  const messageInput = document.getElementById('message-input') as HTMLInputElement;
+  if (messageSet && messageInput) {
+    messageSet.addEventListener('click', () => {
+      battlefieldRenderer.setMessage(messageInput.value);
+    });
+  }
+
+  const messageClear = document.getElementById('message-clear');
+  if (messageClear && messageInput) {
+    messageClear.addEventListener('click', () => {
+      battlefieldRenderer.clearMessage();
+      messageInput.value = '';
+    });
+  }
+
+  const messageSample1 = document.getElementById('message-sample1');
+  if (messageSample1 && messageInput) {
+    messageSample1.addEventListener('click', () => {
+      const msg = '飛影の邪王炎殺黒龍波！';
+      battlefieldRenderer.setMessage(msg);
+      messageInput.value = msg;
+    });
+  }
+
+  const messageSample2 = document.getElementById('message-sample2');
+  if (messageSample2 && messageInput) {
+    messageSample2.addEventListener('click', () => {
+      const msg = 'おまえもしかしてまだ...自分が死なないとでも思ってるんじゃないかね？';
+      battlefieldRenderer.setMessage(msg);
+      messageInput.value = msg;
+    });
+  }
+
+  // Enter key support for message input
+  if (messageInput) {
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        battlefieldRenderer.setMessage((e.target as HTMLInputElement).value);
+      }
+    });
+  }
+
+  console.log('Battlefield and Message controls connected');
+}
+
+/**
+ * Setup Screen Scale control event listeners
+ */
+function setupScreenScaleControls(): void {
+  const scale0_5xBtn = document.getElementById('scale-0.5x');
+  if (scale0_5xBtn) {
+    scale0_5xBtn.addEventListener('click', () => screenScaleRenderer.setScale0_5x());
+  }
+
+  const scale1xBtn = document.getElementById('scale-1x');
+  if (scale1xBtn) {
+    scale1xBtn.addEventListener('click', () => screenScaleRenderer.setScale1x());
+  }
+
+  const scale1_5xBtn = document.getElementById('scale-1.5x');
+  if (scale1_5xBtn) {
+    scale1_5xBtn.addEventListener('click', () => screenScaleRenderer.setScale1_5x());
+  }
+
+  const scale2xBtn = document.getElementById('scale-2x');
+  if (scale2xBtn) {
+    scale2xBtn.addEventListener('click', () => screenScaleRenderer.setScale2x());
+  }
+
+  const scale3xBtn = document.getElementById('scale-3x');
+  if (scale3xBtn) {
+    scale3xBtn.addEventListener('click', () => screenScaleRenderer.setScale3x());
+  }
+
+  console.log('Screen Scale controls connected');
+}
+
+/**
  * Setup keyboard shortcuts
  */
 function setupKeyboardShortcuts(): void {
@@ -268,10 +831,24 @@ window.addEventListener('DOMContentLoaded', () => {
   // Initialize renderers
   toukiRenderer.initialize();
   hpRenderer.initialize();
+  balanceRenderer.initialize();
+  reikiRenderer.initialize();
+  crystalBallRenderer.initialize();
+  inputLampRenderer.initialize();
+  buttonLampsRenderer.initialize();
+  battlefieldRenderer.initialize();
+  screenScaleRenderer.initialize();
 
   // Setup event listeners
   setupToukiControls();
   setupHPControls();
+  setupBalanceControls();
+  setupReikiControls();
+  setupCrystalBallControls();
+  setupInputLampControls();
+  setupButtonLampsControls();
+  setupBattlefieldControls();
+  setupScreenScaleControls();
   setupKeyboardShortcuts();
 
   console.log('Game initialized! 🎮');
@@ -280,3 +857,10 @@ window.addEventListener('DOMContentLoaded', () => {
 // Expose renderers globally for debugging
 (window as any).toukiRenderer = toukiRenderer;
 (window as any).hpRenderer = hpRenderer;
+(window as any).balanceRenderer = balanceRenderer;
+(window as any).reikiRenderer = reikiRenderer;
+(window as any).crystalBallRenderer = crystalBallRenderer;
+(window as any).inputLampRenderer = inputLampRenderer;
+(window as any).buttonLampsRenderer = buttonLampsRenderer;
+(window as any).battlefieldRenderer = battlefieldRenderer;
+(window as any).screenScaleRenderer = screenScaleRenderer;
