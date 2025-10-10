@@ -13,9 +13,13 @@
 | Battle flow system | ✅ Done | BattleFlow.ts with mock systems (Phase 1.1-1.3) |
 | Mock systems | ✅ Done | RNG, Touki, Balance, Combat, Damage |
 | Battle flow test | ✅ Done | Interactive UI test in game.ts with button |
+| **RNG System** | ✅ Done | **Phase 2.1 - Real random corrections!** |
+| Character stats system | ⏸️ Not Started | Phase 2.2 - Next! |
+| Touki system | ⏸️ Not Started | Phase 2.3 |
+| Balance system | ⏸️ Not Started | Phase 2.4 |
+| Combat calculations | ⏸️ Not Started | Phase 2.5 |
+| Damage calculations | ⏸️ Not Started | Phase 2.6 |
 | Motion frame timing | ⏸️ Not Started | Phase 3.1 |
-| Real combat calculations | ⏸️ Not Started | Phase 2 (replace mocks) |
-| Character stats system | ⏸️ Not Started | Phase 2.2 |
 
 ## Phase 2: Local Play
 
@@ -55,11 +59,23 @@
 - ❌ Blocked
 
 ## Current Focus
-**Phase 1 Complete!** ✅ Battle flow working with mock systems.
+**Phase 2.1 Complete!** ✅ RNG System implemented with real random corrections!
 
-Next: Phase 2 - Replace mock systems with real implementations (RNG, Touki, Balance, Combat, Damage).
+Next: Phase 2.2 - Character Stats System (load real character data)
 
-## Latest Milestone (2025-10-10) - Phase 1 Complete! 🎉
+## Latest Milestone (2025-10-10) - Phase 2.1 Complete! 🎲
+
+### Phase 2.1: RNG System (Just Completed!)
+- ✅ Created RNGSystem.ts - Real random number generation
+- ✅ Replaced MockRNG in BattleFlow
+- ✅ Implements 4 RNG scenarios (both-attack, mixed, counter, aerial-collision)
+- ✅ First player: 192-255/256 range (75%-100%)
+- ✅ Second player: 192-255 or 128-255 depending on scenario
+- ✅ Defensive disadvantage implemented (second player gets worse RNG in mixed scenarios)
+- ✅ Tested with battle test - damage varies each turn!
+- 🎮 **Battles are now unpredictable and realistic!**
+
+### Phase 1 Complete! 🎉
 - ✅ Created BattleFlow.ts - main battle orchestrator with 4-phase turn system
 - ✅ Created 5 mock systems (MockRNG, MockTouki, MockBalance, MockCombat, MockDamage)
 - ✅ Integrated mocks into BattleFlow with correction pipeline

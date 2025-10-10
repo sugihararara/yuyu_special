@@ -65,16 +65,18 @@ Create simple placeholder implementations:
 
 Replace mocks one by one, testing after each replacement.
 
-### Step 2.1: RNG System ⏸️
+### Step 2.1: RNG System ✅ COMPLETE
 **File:** `src/logic/RNGSystem.ts`
 **Spec:** `docs/spec/logic/09_rng_system.md`
 **Replaces:** `MockRNG.ts`
 **Key features:**
-- Random correction values (128-255 or 192-255)
-- Different ranges for attacker/defender
-- Different ranges based on move types
+- ✅ Random correction values (128-255 or 192-255)
+- ✅ Different ranges for attacker/defender
+- ✅ Different ranges based on move types (4 scenarios)
+- ✅ Action classification (attack vs non-attack)
+- ✅ Defensive disadvantage for second player in mixed scenarios
 
-**Test:** Run same battle, verify randomness works
+**Test:** ✅ Tested with battle test - damage varies each turn!
 
 ### Step 2.2: Character Stats System ⏸️
 **File:** `src/logic/CharacterStats.ts`
@@ -258,7 +260,7 @@ All Phase 1 goals exceeded! Delivered:
 | Battle Flow | ✅ Done | `BattleFlow.ts` | Phase 1.1 |
 | Mock Systems | ✅ Done | `mocks/*` | Phase 1.2 |
 | Integration Test | ✅ Done | `game.ts` | Phase 1.3 (interactive UI) |
-| RNG System | ⏸️ Not Started | `RNGSystem.ts` | Phase 2.1 |
+| RNG System | ✅ Done | `RNGSystem.ts` | Phase 2.1 ✅ |
 | Character Stats | ⏸️ Not Started | `CharacterStats.ts` | Phase 2.2 |
 | Touki System | ⏸️ Not Started | `ToukiSystem.ts` | Phase 2.3 |
 | Balance System | ⏸️ Not Started | `BalanceSystem.ts` | Phase 2.4 |
