@@ -17,8 +17,10 @@ import type {
 import type { BattleOutcome } from '../types/BattleTypes';
 import type { PlayerTurnInput } from '../types/PlayerInput';
 
+// Real systems (Phase 2)
+import { RNGSystem } from './RNGSystem';
+
 // Mock systems (temporary - will be replaced in Phase 2)
-import { MockRNG } from './mocks/MockRNG';
 import { MockTouki } from './mocks/MockTouki';
 import { MockBalance } from './mocks/MockBalance';
 import { MockCombat } from './mocks/MockCombat';
@@ -39,12 +41,12 @@ export interface TurnResult {
 export class BattleFlow {
   private battleState: BattleState;
 
-  // Mock systems (will be replaced with real implementations)
-  private rng: MockRNG;
-  private touki: MockTouki;
-  private balance: MockBalance;
-  private combat: MockCombat;
-  private damage: MockDamage;
+  // Systems (✅ = real implementation, mock = temporary)
+  private rng: RNGSystem;        // ✅ Phase 2.1 - Real RNG System
+  private touki: MockTouki;      // TODO: Phase 2.3
+  private balance: MockBalance;  // TODO: Phase 2.4
+  private combat: MockCombat;    // TODO: Phase 2.5
+  private damage: MockDamage;    // TODO: Phase 2.6
 
   constructor(
     player1CharacterId: string,
@@ -58,8 +60,8 @@ export class BattleFlow {
       stage
     );
 
-    // Initialize mock systems
-    this.rng = new MockRNG();
+    // Initialize systems
+    this.rng = new RNGSystem();    // ✅ Real implementation
     this.touki = new MockTouki();
     this.balance = new MockBalance();
     this.combat = new MockCombat();
@@ -344,8 +346,12 @@ export class BattleFlow {
     const p1ToukiCorr = this.touki.getCorrection(this.battleState.player1.touki);
     const p2ToukiCorr = this.touki.getCorrection(this.battleState.player2.touki);
 
-    const p1RngCorr = this.rng.getFirstPlayerCorrection();
-    const p2RngCorr = this.rng.getSecondPlayerCorrection();
+    // RNG correction with real system (Phase 2.1)
+    // TODO: In Phase 2.2, determine scenario based on actual move types
+    // For now, assume 'both-attack' scenario
+    const rngScenario = 'both-attack';
+    const p1RngCorr = this.rng.getFirstPlayerCorrection(rngScenario);
+    const p2RngCorr = this.rng.getSecondPlayerCorrection(rngScenario);
 
     const p1BalCorr = this.balance.getCorrection(this.battleState.player1.balance);
     const p2BalCorr = this.balance.getCorrection(this.battleState.player2.balance);
