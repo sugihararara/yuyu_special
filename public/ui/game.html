@@ -955,164 +955,17 @@
                 activeBtn.style.background = '#060';
             }
         }
-        
+
         // ========================================
-        // 闘気メーター関連のコード（まとめ）
+        // 闘気メーター関連のコード
         // ========================================
-        
-        // 闘気メーターの状態管理
-        // Touki values: 0-96 (97 levels, matches game specs)
-        let touki1 = 0;
-        let touki2 = 0;
-        let isTouki1Charging = false;  // 1P充電中フラグ
-        let isTouki2Charging = false;  // 2P充電中フラグ
-        let toukiAnimationId = null;   // アニメーションID
-        
-        // 闘気メーターの内部幅を動的に取得する関数
-        function getToukiMeterWidth(playerId) {
-            const meterElement = document.querySelector(`.touki-meter.p${playerId}`);
-            if (meterElement) {
-                // getComputedStyleで実際の幅を取得
-                const computedStyle = window.getComputedStyle(meterElement);
-                const width = parseFloat(computedStyle.width);
-                const borderLeft = parseFloat(computedStyle.borderLeftWidth);
-                const borderRight = parseFloat(computedStyle.borderRightWidth);
-                // ボーダーを除いた内部幅を返す
-                return width - borderLeft - borderRight;
-            }
-            // フォールバック値
-            return 176;
-        }
-        
-        const TOUKI_CHARGE_SPEED = 0.96; // 充電速度 (96 frames to MAX)
+        // Migrated to TypeScript: src/ui/renderers/ToukiRenderer.ts
+        // Event listeners: src/game.ts
 
-        // 闘気メーターの値を更新する関数
-        function updateToukiDisplay() {
-            const touki1Element = document.getElementById('touki1');
-            const touki2Element = document.getElementById('touki2');
-
-            // 実際の枠の幅を動的に取得
-            const meter1Width = getToukiMeterWidth(1);
-            const meter2Width = getToukiMeterWidth(2);
-
-            // 幅を更新（ピクセル値で設定）
-            // touki: 0-96 → convert to percentage for display
-            const width1 = (touki1 / 96 * 100 / 100) * meter1Width;
-            const width2 = (touki2 / 96 * 100 / 100) * meter2Width;
-
-            touki1Element.style.width = width1 + 'px';
-            touki2Element.style.width = width2 + 'px';
-
-            // デバッグパネルの値表示を更新 (show raw value)
-            document.getElementById('touki1-value').textContent = Math.round(touki1);
-            document.getElementById('touki2-value').textContent = Math.round(touki2);
-        }
-
-        // 闘気メーターのアニメーション処理
-        function animateTouki() {
-            // 1Pの処理（押している間だけ増加）
-            if (isTouki1Charging && touki1 < 96) {
-                touki1 = Math.min(96, touki1 + TOUKI_CHARGE_SPEED);
-            }
-
-            // 2Pの処理（押している間だけ増加）
-            if (isTouki2Charging && touki2 < 96) {
-                touki2 = Math.min(96, touki2 + TOUKI_CHARGE_SPEED);
-            }
-
-            updateToukiDisplay();
-            toukiAnimationId = requestAnimationFrame(animateTouki);
-        }
-        
-        // 1P闘気メーター制御関数
-        function startChargeTouki1() {
-            isTouki1Charging = true;
-            document.getElementById('touki1-charge').style.background = '#800';
-        }
-        
-        function stopChargeTouki1() {
-            isTouki1Charging = false;
-            document.getElementById('touki1-charge').style.background = '#400';
-        }
-        
-        function resetTouki1() {
-            touki1 = 0;
-            updateToukiDisplay();
-        }
-        
-        function setTouki1(value) {
-            touki1 = value;
-            updateToukiDisplay();
-        }
-        
-        // 2P闘気メーター制御関数
-        function startChargeTouki2() {
-            isTouki2Charging = true;
-            document.getElementById('touki2-charge').style.background = '#800';
-        }
-        
-        function stopChargeTouki2() {
-            isTouki2Charging = false;
-            document.getElementById('touki2-charge').style.background = '#400';
-        }
-        
-        function resetTouki2() {
-            touki2 = 0;
-            updateToukiDisplay();
-        }
-        
-        function setTouki2(value) {
-            touki2 = value;
-            updateToukiDisplay();
-        }
-        
-        // 闘気メーターのアニメーション開始
-        animateTouki();
-        
-        // 1P闘気メーターの色を変更する関数
-        function setTouki1Color(color) {
-            let colorCode = '#ff0000';  // デフォルトは赤
-            
-            switch(color) {
-                case 'red':
-                    colorCode = '#ff0000';
-                    break;
-                case 'cyan':
-                    colorCode = '#00ffff';
-                    break;
-                case 'purple':
-                    colorCode = '#9900ff';
-                    break;
-            }
-            
-            document.getElementById('touki1').style.background = colorCode;
-        }
-        
-        // 2P闘気メーターの色を変更する関数
-        function setTouki2Color(color) {
-            let colorCode = '#ff0000';  // デフォルトは赤
-            
-            switch(color) {
-                case 'red':
-                    colorCode = '#ff0000';
-                    break;
-                case 'cyan':
-                    colorCode = '#00ffff';
-                    break;
-                case 'purple':
-                    colorCode = '#9900ff';
-                    break;
-            }
-            
-            document.getElementById('touki2').style.background = colorCode;
-        }
-        
-        // 闘気ボタンのイベントリスナー設定
+        // ========================================
+        // 画面スケールボタンのイベントリスナー
+        // ========================================
         document.addEventListener('DOMContentLoaded', () => {
-            // ========================================
-            // 画面スケールボタンのイベントリスナー
-            // ========================================
-            
             // 各スケールボタンにイベントを設定
             const scaleButtons = [
                 { id: 'scale-0.5x', value: 0.5 },
@@ -1121,7 +974,7 @@
                 { id: 'scale-2x', value: 2.0 },
                 { id: 'scale-3x', value: 3.0 }
             ];
-            
+
             scaleButtons.forEach(button => {
                 const btn = document.getElementById(button.id);
                 if (btn) {
@@ -1129,71 +982,6 @@
                         setGameScale(button.value);
                     });
                 }
-            });
-            
-            // ========================================
-            // 闘気メーターのイベントリスナー
-            // ========================================
-            // 1P闘気コントロール
-            const touki1ChargeBtn = document.getElementById('touki1-charge');
-            touki1ChargeBtn.addEventListener('mousedown', startChargeTouki1);
-            touki1ChargeBtn.addEventListener('mouseup', stopChargeTouki1);
-            touki1ChargeBtn.addEventListener('mouseleave', stopChargeTouki1);
-            touki1ChargeBtn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startChargeTouki1();
-            });
-            touki1ChargeBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                stopChargeTouki1();
-            });
-            
-            document.getElementById('touki1-reset').addEventListener('click', resetTouki1);
-            document.getElementById('touki1-set50').addEventListener('click', () => setTouki1(48)); // 50% of 96
-            document.getElementById('touki1-set100').addEventListener('click', () => setTouki1(96)); // MAX
-            
-            // 2P闘気コントロール
-            const touki2ChargeBtn = document.getElementById('touki2-charge');
-            touki2ChargeBtn.addEventListener('mousedown', startChargeTouki2);
-            touki2ChargeBtn.addEventListener('mouseup', stopChargeTouki2);
-            touki2ChargeBtn.addEventListener('mouseleave', stopChargeTouki2);
-            touki2ChargeBtn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                startChargeTouki2();
-            });
-            touki2ChargeBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                stopChargeTouki2();
-            });
-            
-            document.getElementById('touki2-reset').addEventListener('click', resetTouki2);
-            document.getElementById('touki2-set50').addEventListener('click', () => setTouki2(48)); // 50% of 96
-            document.getElementById('touki2-set100').addEventListener('click', () => setTouki2(96)); // MAX
-            
-            // 1P闘気メーター色変更
-            document.getElementById('touki1-color-red').addEventListener('click', () => {
-                document.getElementById('touki1').style.background = '#ff0000';
-            });
-            
-            document.getElementById('touki1-color-cyan').addEventListener('click', () => {
-                document.getElementById('touki1').style.background = '#00ffff';
-            });
-            
-            document.getElementById('touki1-color-purple').addEventListener('click', () => {
-                document.getElementById('touki1').style.background = '#9900ff';
-            });
-            
-            // 2P闘気メーター色変更
-            document.getElementById('touki2-color-red').addEventListener('click', () => {
-                document.getElementById('touki2').style.background = '#ff0000';
-            });
-            
-            document.getElementById('touki2-color-cyan').addEventListener('click', () => {
-                document.getElementById('touki2').style.background = '#00ffff';
-            });
-            
-            document.getElementById('touki2-color-purple').addEventListener('click', () => {
-                document.getElementById('touki2').style.background = '#9900ff';
             });
         });
         
@@ -2141,5 +1929,8 @@
             background: #222;
         }
     </style>
+
+    <!-- TypeScript Game Engine -->
+    <script type="module" src="/src/game.ts"></script>
 </body>
 </html>
