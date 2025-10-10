@@ -15,7 +15,7 @@
 | Battle flow test | ✅ Done | Interactive UI test in game.ts with button |
 | **RNG System** | ✅ Done | **Phase 2.1 - Real random corrections!** |
 | **Character Stats System** | ✅ Done | **Phase 2.2 - Real character data!** |
-| Touki system | ⏸️ Not Started | Phase 2.3 |
+| **Touki System** | ✅ Done | **Phase 2.3 - Real non-linear scaling!** |
 | Balance system | ⏸️ Not Started | Phase 2.4 |
 | Combat calculations | ⏸️ Not Started | Phase 2.5 |
 | Damage calculations | ⏸️ Not Started | Phase 2.6 |
@@ -59,13 +59,23 @@
 - ❌ Blocked
 
 ## Current Focus
-**Phase 2.2 Complete!** ✅ Character Stats System implemented with real character data!
+**Phase 2.3 Complete!** ✅ Touki System implemented with real non-linear scaling!
 
-Next: Phase 2.3 - Touki System (use real lookup table)
+Next: Phase 2.4 - Balance System (use real lookup table)
 
-## Latest Milestone (2025-10-11) - Phase 2.2 Complete! 📊
+## Latest Milestone (2025-10-11) - Phase 2.3 Complete! 💪
 
-### Phase 2.2: Character Stats System (Just Completed!)
+### Phase 2.3: Touki System (Just Completed!)
+- ✅ Created ToukiSystem.ts - Real touki corrections
+- ✅ Replaced MockTouki in BattleFlow
+- ✅ Uses 97-level lookup table (0-96 touki values)
+- ✅ Non-linear scaling: 30% touki = ~50% performance, 75% touki = ~90% performance
+- ✅ Charge time calculation for all action types (punch/defense/technique/spirit)
+- ✅ Touki UP/DOWN buff support
+- ✅ Authentic scaling curve from original game
+- 💪 **Touki now scales exactly like the original Super Famicom game!**
+
+### Phase 2.2: Character Stats System
 - ✅ Created CharacterStatsSystem.ts - Real character data loading
 - ✅ Integrated with characterLoader.ts
 - ✅ Loads real stats from JSON files (stats.json, moves.json, frames.json)

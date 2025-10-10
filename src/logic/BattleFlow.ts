@@ -20,9 +20,9 @@ import type { PlayerTurnInput } from '../types/PlayerInput';
 // Real systems (Phase 2)
 import { RNGSystem } from './RNGSystem';
 import { CharacterStatsSystem } from './CharacterStatsSystem';
+import { ToukiSystem } from './ToukiSystem';
 
 // Mock systems (temporary - will be replaced in Phase 2)
-import { MockTouki } from './mocks/MockTouki';
 import { MockBalance } from './mocks/MockBalance';
 import { MockCombat } from './mocks/MockCombat';
 import { MockDamage } from './mocks/MockDamage';
@@ -43,12 +43,12 @@ export class BattleFlow {
   private battleState: BattleState;
 
   // Systems (✅ = real implementation, mock = temporary)
-  private rng: RNGSystem;            // ✅ Phase 2.1 - Real RNG System
+  private rng: RNGSystem;                       // ✅ Phase 2.1 - Real RNG System
   private characterStats: CharacterStatsSystem; // ✅ Phase 2.2 - Real Character Stats
-  private touki: MockTouki;          // TODO: Phase 2.3
-  private balance: MockBalance;      // TODO: Phase 2.4
-  private combat: MockCombat;        // TODO: Phase 2.5
-  private damage: MockDamage;        // TODO: Phase 2.6
+  private touki: ToukiSystem;                   // ✅ Phase 2.3 - Real Touki System
+  private balance: MockBalance;                 // TODO: Phase 2.4
+  private combat: MockCombat;                   // TODO: Phase 2.5
+  private damage: MockDamage;                   // TODO: Phase 2.6
 
   constructor(
     player1CharacterId: string,
@@ -63,9 +63,9 @@ export class BattleFlow {
     );
 
     // Initialize systems
-    this.rng = new RNGSystem();                 // ✅ Real implementation
+    this.rng = new RNGSystem();                       // ✅ Real implementation
     this.characterStats = new CharacterStatsSystem(); // ✅ Real implementation
-    this.touki = new MockTouki();
+    this.touki = new ToukiSystem();                   // ✅ Real implementation
     this.balance = new MockBalance();
     this.combat = new MockCombat();
     this.damage = new MockDamage();

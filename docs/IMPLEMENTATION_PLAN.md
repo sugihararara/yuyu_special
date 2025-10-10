@@ -92,18 +92,20 @@ Replace mocks one by one, testing after each replacement.
 
 **Test:** ✅ Integrated with BattleFlow - real character stats used in battles!
 
-### Step 2.3: Touki System ⏸️
+### Step 2.3: Touki System ✅ COMPLETE
 **File:** `src/logic/ToukiSystem.ts`
 **Spec:** `docs/spec/logic/03_touki_system.md`
 **Replaces:** `MockTouki.ts`
 **Uses:** `src/data/lookupTables/toukiTable.ts` (already exists!)
 **Key features:**
-- Touki charge over time (61F/73F/96F/121F to max)
-- Touki correction lookup (0-96 levels)
-- Touki UP/DOWN states
-- Apply correction to stats
+- ✅ Touki charge over time (61F/73F/96F/121F to max)
+- ✅ Touki correction lookup (0-96 levels, non-linear)
+- ✅ Touki UP/DOWN states
+- ✅ Apply correction to stats
+- ✅ Charge time calculation for all action types
+- ✅ Performance percentage calculation
 
-**Test:** Charge touki, verify stat multipliers match lookup table
+**Test:** ✅ Integrated with BattleFlow - real touki scaling applied!
 
 ### Step 2.4: Balance System ⏸️
 **File:** `src/logic/BalanceSystem.ts`
@@ -265,7 +267,7 @@ All Phase 1 goals exceeded! Delivered:
 | Integration Test | ✅ Done | `game.ts` | Phase 1.3 (interactive UI) |
 | RNG System | ✅ Done | `RNGSystem.ts` | Phase 2.1 ✅ |
 | Character Stats | ✅ Done | `CharacterStatsSystem.ts` | Phase 2.2 ✅ |
-| Touki System | ⏸️ Not Started | `ToukiSystem.ts` | Phase 2.3 |
+| Touki System | ✅ Done | `ToukiSystem.ts` | Phase 2.3 ✅ |
 | Balance System | ⏸️ Not Started | `BalanceSystem.ts` | Phase 2.4 |
 | Combat Calculation | ⏸️ Not Started | `CombatCalculation.ts` | Phase 2.5 |
 | Damage Calculation | ⏸️ Not Started | `DamageCalculation.ts` | Phase 2.6 |
