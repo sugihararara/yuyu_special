@@ -16,12 +16,13 @@ A complete, end-to-end battle system that runs immediately!
 - `src/logic/mocks/MockDamage.ts` - Damage calculations
 
 ### ✅ Integration Test
-**File:** `src/main.ts`
+**File:** `src/game.ts` (integrated with UI renderers)
 
-Test scenario runs automatically:
+Interactive battle test with button:
 - **Battle:** Yusuke vs Kuwabara
-- **3 Turns:** Different attacks (punch, defense, tech)
-- **Results displayed** on canvas and in console
+- **3 Turns:** Different attacks with touki charging animations
+- **Results displayed** on live UI + console logs
+- **Touki resets** after each action (follows spec)
 
 ### 🎮 How to Test
 
@@ -34,14 +35,15 @@ Then open: `http://localhost:3001` (or 3000)
 **Steps:**
 1. Open the main menu (root page)
 2. Click **"Game UI Test (Debug Mode)"**
-3. In the debug panel at the bottom, find the green **"🎮 BATTLE TEST"** section
+3. In the debug panel at the bottom, find the green **"🎮 BATTLE TEST (Phase 1)"** section
 4. Click **"▶ Run Battle Test (3 Turns)"** button
 5. Watch the battle unfold!
 
 You'll see:
+- **Touki charging animations** (800ms smooth fill before each turn)
 - **Turn-by-turn updates** on the UI (1.5s delay between turns)
 - **HP bars** decreasing
-- **Touki meters** charging
+- **Touki meters** charging then resetting to 0
 - **Balance meters** filling
 - **Reiki rewards** appearing in crystal ball
 - **Messages** showing what happened
@@ -74,27 +76,25 @@ You'll see:
 ### 🔧 Example Console Output
 
 ```
-=== BATTLE FLOW TEST ===
+🎮 Starting Battle Test...
 
-Turn 1: P1 first | P1: →A (direct_hit) | P2: →A (graze)
-  P1 HP: 96
-  P2 HP: 91
-  P1 Balance: 20
-  P2 Balance: 40
+=== TURN 1 ===
+Turn 0: P1 first | P1: →A (direct_hit) | P2: →A (graze)
 
-Turn 2: P1 first | P1: →B (direct_hit) | P2: ↓A (evade)
-  P1 HP: 96
-  P2 HP: 86
+=== TURN 2 ===
+Turn 1: P1 first | P1: →B (direct_hit) | P2: ↓A (evade)
 
-Turn 3: P1 first | P1: ↑X (direct_hit) | P2: ↑X (graze)
-  P1 HP: 96
-  P2 HP: 81
+=== TURN 3 ===
+Turn 2: P1 first | P1: ↑X (direct_hit) | P2: ↑X (graze)
 
-=== FINAL STATE ===
-Match Over: false
-Winner: null
-Total Turns: 3
+✅ Battle Test Complete!
 ```
+
+**On the UI, you'll see:**
+- Touki: 30→0, 45→0, 50→0 (charging then resetting)
+- HP: 96→91→86→81 (P2 taking damage)
+- Balance: Gradually filling
+- Reiki: Increasing from rewards
 
 ## Why This Matters
 
@@ -163,7 +163,8 @@ Each phase builds on a **working foundation** - no "big bang" integration!
 
 ## Files Modified
 
-- `src/main.ts` - Added battle test
+- `src/game.ts` - Added battle test integration (+147 lines)
+- `public/ui/game.html` - Added battle test button
 - `STATUS.md` - Updated progress
 - `IMPLEMENTATION_PLAN.md` - Marked Phase 1 complete
 - `PROJECT_STRUCTURE.md` - Added mocks folder

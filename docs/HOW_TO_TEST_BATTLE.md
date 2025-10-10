@@ -26,31 +26,37 @@
 
 The battle automatically runs 3 turns with 1.5 second delays:
 
-### Turn 1
+### Turn 1 (Touki: P1=30, P2=40)
+- **Touki charging animation** (800ms smooth fill)
 - **P1 (Yusuke):** Punch (→A) at frame 60
 - **P2 (Kuwabara):** Punch (→A) at frame 80
 - P1 is first → P1 hits, P2 takes damage
+- **Touki resets to 0** after action
 
-### Turn 2
+### Turn 2 (Touki: P1=45, P2=35)
+- **Touki charging animation** (from 0 again!)
 - **P1:** Strong punch (→B) at frame 90
 - **P2:** Defense (↓A) at frame 100
 - P1 is first → Different damage calculation
+- **Touki resets to 0** after action
 
-### Turn 3
+### Turn 3 (Touki: P1=50, P2=50)
+- **Touki charging animation** (from 0 again!)
 - **P1:** Technique (↑X) at frame 100
 - **P2:** Technique (↑X) at frame 105
 - P1 is first → Simultaneous tech moves
+- **Touki resets to 0** after action
 
 ## What You'll See
 
 ### On Screen (Live Updates!)
-- ✅ **HP bars** - Red and yellow bars decrease
-- ✅ **Touki meters** - Red bars charge (30, 45, 50)
-- ✅ **Balance meters** - Cyan bars fill up
-- ✅ **Reiki gauges** - Orange cells increase
+- ✅ **HP bars** - Red and yellow bars decrease (P2: 96→91→86→81)
+- ✅ **Touki meters** - Red bars charge with smooth 800ms animation, then reset to 0
+- ✅ **Balance meters** - Cyan bars fill up gradually
+- ✅ **Reiki gauges** - Orange cells increase from crystal ball rewards
 - ✅ **Crystal ball** - Shows reiki rewards (3 orbs)
-- ✅ **Input lamps** - Blue/yellow showing who's first
-- ✅ **Messages** - Battle narrative at bottom
+- ✅ **Input lamps** - Blue/yellow showing who's first/second
+- ✅ **Messages** - Battle narrative at bottom ("Turn X: Charging touki..." → "Turn X: P1 first...")
 
 ### In Console (Detailed Logs!)
 ```
@@ -80,28 +86,35 @@ While the battle test is automatic, you can also:
 
 ### What's Running:
 1. **BattleFlow.ts** - Main orchestrator
+   - ✅ Touki reset after action
+   - ✅ Initiative system (先手/後手)
+   - ✅ 4-phase turn system
+   - ✅ Win condition checking
+
 2. **5 Mock Systems:**
-   - MockRNG - Fixed random values
-   - MockTouki - Linear touki scaling
-   - MockBalance - Linear balance scaling
-   - MockCombat - Simple success/fail logic
-   - MockDamage - Damage with graze support
+   - MockRNG - Fixed random values (~0.8-0.9)
+   - MockTouki - Linear touki scaling (0.5 + touki/96 * 0.5)
+   - MockBalance - Linear balance correction (1.0 - balance/255 * 0.32)
+   - MockCombat - Success vs evasion judgment
+   - MockDamage - HP/Balance damage with graze support
 
 3. **9 UI Renderers:**
-   - HPRenderer
-   - ToukiRenderer
-   - BalanceRenderer
-   - ReikiRenderer
-   - CrystalBallRenderer
-   - InputLampRenderer
-   - ButtonLampsRenderer
-   - BattlefieldRenderer
-   - ScreenScaleRenderer
+   - HPRenderer - Red/yellow HP bars
+   - ToukiRenderer - Red touki bars with animation
+   - BalanceRenderer - Cyan balance bars
+   - ReikiRenderer - Orange reiki cells
+   - CrystalBallRenderer - Purple crystal ball rewards
+   - InputLampRenderer - Blue/yellow/red input lamps
+   - ButtonLampsRenderer - ABXY button lamps
+   - BattlefieldRenderer - Messages and character area
+   - ScreenScaleRenderer - Screen zoom controls
 
 ### Integration:
-- Battle runs in `game.ts`
+- Battle runs in `game.ts` (runBattleTest function)
+- Smooth touki charging with `animateToukiCharge()` (800ms ease-in-out)
 - Updates all UI renderers via `updateUIFromBattleState()`
 - Real-time synchronization between logic and UI
+- Turn-by-turn delays (1.5s) for visibility
 
 ## Troubleshooting
 

@@ -50,9 +50,9 @@ src/
 ├── types/      # TypeScript interfaces
 ├── logic/      # Game engine (battle systems)
 ├── input/      # Input adapters (keyboard/network)
-├── ui/         # Canvas rendering
+├── ui/         # UI renderers
 ├── data/       # Character stats, frame data
-└── main.ts     # Entry point
+└── game.ts     # Game entry point
 ```
 
 ## 📖 Documentation

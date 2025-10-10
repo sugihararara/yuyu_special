@@ -56,7 +56,7 @@ yuyu_special/
 │   │   ├── frameData/            # Motion frame tables
 │   │   └── lookupTables/         # Touki/balance correction tables
 │   │
-│   └── main.ts                    # Entry point
+│   └── game.ts                    # Game entry point (loaded by game.html)
 │
 ├── public/                        # Static assets (auto-copied to dist/)
 │   └── ui/                        # HTML UI files
