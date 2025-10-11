@@ -17,7 +17,7 @@
 | **Character Stats System** | ✅ Done | **Phase 2.2 - Real character data!** |
 | **Touki System** | ✅ Done | **Phase 2.3 - Real non-linear scaling!** |
 | **Balance System** | ✅ Done | **Phase 2.4 - Real knockdown mechanics!** |
-| Combat calculations | ⏸️ Not Started | Phase 2.5 |
+| **Combat Calculations** | ✅ Done | **Phase 2.5 - Real judgment system!** |
 | **Damage Calculations** | ✅ Done | **Phase 2.6 - Real damage formulas!** |
 | Motion frame timing | ⏸️ Not Started | Phase 3.1 |
 
@@ -59,13 +59,26 @@
 - ❌ Blocked
 
 ## Current Focus
-**Phase 2.6 Complete!** ✅ Damage Calculation implemented with real damage formulas!
+**Phase 2.5 & 2.6 Complete!** ✅ ALL COMBAT SYSTEMS ARE NOW REAL! 🎉
 
-Next: Phase 2.5 - Combat Calculation (full correction pipeline)
+Next: Phase 3.1 - Motion Frame Timing System
 
-## Latest Milestone (2025-10-11) - Phase 2.6 Complete! 💥
+## Latest Milestone (2025-10-11) - Phase 2.5 & 2.6 Complete! ⚔️💥
 
-### Phase 2.6: Damage Calculation System (Just Completed!)
+### Phase 2.5: Combat Calculation System (Just Completed!)
+- ✅ Created CombatCalculation.ts - Real judgment formulas
+- ✅ Replaced MockCombat in BattleFlow
+- ✅ Full correction pipeline: Base × Touki × RNG × Balance × LowHP × Initiative × Special
+- ✅ Initiative penalties: 後手 (second) ~10% reduction, 完全後手 (complete second) ×3/4
+- ✅ Special modifiers: Powered punch (+56 success, +32 evasion, +16 power)
+- ✅ Clean hit bonuses: (+32 success, +16 evasion, +16 power, +48 balance)
+- ✅ Low HP bonuses: Up to 14.8% boost when below 25% HP
+- ✅ Judgment thresholds: Direct hit (75%), Graze (50%), Evade (25%)
+- ✅ RNG scenario determination based on move types
+- ✅ Character-specific powered punch/clean hit rates
+- ⚔️ **Combat now calculates exactly like the original Super Famicom game!**
+
+### Phase 2.6: Damage Calculation System
 - ✅ Created DamageCalculation.ts - Real damage formulas
 - ✅ Replaced MockDamage in BattleFlow
 - ✅ Full damage pipeline: Base × Touki × RNG × Balance × Defense × Hit type
@@ -140,6 +153,7 @@ Next: Phase 2.5 - Combat Calculation (full correction pipeline)
 - `src/logic/CharacterStatsSystem.ts` - Real character data loading (Phase 2.2)
 - `src/logic/ToukiSystem.ts` - Real touki corrections (Phase 2.3)
 - `src/logic/BalanceSystem.ts` - Real balance corrections (Phase 2.4)
+- `src/logic/CombatCalculation.ts` - Real combat judgment (Phase 2.5)
 - `src/logic/DamageCalculation.ts` - Real damage calculation (Phase 2.6)
 
 **Phase 1 - Core Architecture:**
@@ -147,7 +161,7 @@ Next: Phase 2.5 - Combat Calculation (full correction pipeline)
 - `src/logic/mocks/MockRNG.ts` - Mock random number generator (replaced)
 - `src/logic/mocks/MockTouki.ts` - Mock touki system (replaced)
 - `src/logic/mocks/MockBalance.ts` - Mock balance system (replaced)
-- `src/logic/mocks/MockCombat.ts` - Mock combat calculation (still in use)
+- `src/logic/mocks/MockCombat.ts` - Mock combat calculation (replaced)
 - `src/logic/mocks/MockDamage.ts` - Mock damage calculation (replaced)
 
 **Integration:**

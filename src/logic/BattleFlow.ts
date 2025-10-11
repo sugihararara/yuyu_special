@@ -22,9 +22,7 @@ import { RNGSystem } from './RNGSystem';
 import { CharacterStatsSystem } from './CharacterStatsSystem';
 import { ToukiSystem } from './ToukiSystem';
 import { BalanceSystem } from './BalanceSystem';
-
-// Mock systems (temporary - will be replaced in Phase 2)
-import { MockCombat } from './mocks/MockCombat';
+import { CombatCalculation } from './CombatCalculation';
 import { DamageCalculation } from './DamageCalculation';
 
 /**
@@ -47,7 +45,7 @@ export class BattleFlow {
   private characterStats: CharacterStatsSystem; // ✅ Phase 2.2 - Real Character Stats
   private touki: ToukiSystem;                   // ✅ Phase 2.3 - Real Touki System
   private balance: BalanceSystem;               // ✅ Phase 2.4 - Real Balance System
-  private combat: MockCombat;                   // TODO: Phase 2.5
+  private combat: CombatCalculation;            // ✅ Phase 2.5 - Real Combat System
   private damage: DamageCalculation;            // ✅ Phase 2.6 - Real Damage System
 
   constructor(
@@ -67,7 +65,7 @@ export class BattleFlow {
     this.characterStats = new CharacterStatsSystem(); // ✅ Real implementation
     this.touki = new ToukiSystem();                   // ✅ Real implementation
     this.balance = new BalanceSystem();               // ✅ Real implementation
-    this.combat = new MockCombat();
+    this.combat = new CombatCalculation();            // ✅ Real implementation
     this.damage = new DamageCalculation();            // ✅ Real implementation
   }
 
@@ -254,9 +252,8 @@ export class BattleFlow {
       this.battleState.player2.currentCommand = cmd;
     }
 
-    // TODO: Use real CombatCalculation and DamageCalculation
-    // For now, return mock outcome
-    return this.mockBattleOutcome();
+    // Calculate battle outcome with all real systems!
+    return this.calculateBattleOutcome();
   }
 
   /**
@@ -343,12 +340,13 @@ export class BattleFlow {
   // ==================== Mock Methods (temporary) ====================
 
   /**
-   * Mock battle outcome (partially real now!)
+   * Battle outcome calculation
    * ✅ Uses REAL character stats! (Phase 2.2)
+   * ✅ Uses REAL combat calculation! (Phase 2.5)
    * ✅ Uses REAL damage calculation! (Phase 2.6)
-   * Still uses mock combat calculations (will be replaced in Phase 2.5)
+   * ALL SYSTEMS ARE NOW REAL! 🎉
    */
-  private mockBattleOutcome(): BattleOutcome {
+  private calculateBattleOutcome(): BattleOutcome {
     const isP1First = this.battleState.firstPlayer === 1;
 
     // ✅ Get REAL move stats from character data (Phase 2.2)
@@ -364,10 +362,12 @@ export class BattleFlow {
     const p1ToukiCorr = this.touki.getCorrection(this.battleState.player1.touki);
     const p2ToukiCorr = this.touki.getCorrection(this.battleState.player2.touki);
 
-    // RNG correction with real system (Phase 2.1)
-    // TODO: In Phase 2.2, determine scenario based on actual move types
-    // For now, assume 'both-attack' scenario
-    const rngScenario = 'both-attack';
+    // Get move types for RNG scenario determination
+    const p1MoveData = this.characterStats.getMove(p1CharId as any, p1Command);
+    const p2MoveData = this.characterStats.getMove(p2CharId as any, p2Command);
+
+    // Determine RNG scenario based on move types
+    const rngScenario = this.combat.determineRNGScenario(p1MoveData.type, p2MoveData.type);
     const p1RngCorr = this.rng.getFirstPlayerCorrection(rngScenario);
     const p2RngCorr = this.rng.getSecondPlayerCorrection(rngScenario);
 
@@ -378,23 +378,58 @@ export class BattleFlow {
     const p1CharStats = this.characterStats.getCharacterStats(p1CharId as any);
     const p2CharStats = this.characterStats.getCharacterStats(p2CharId as any);
 
+    // Calculate low HP bonuses
+    const p1LowHpCorr = this.combat.calculateLowHPCorrection(this.battleState.player1.hp);
+    const p2LowHpCorr = this.combat.calculateLowHPCorrection(this.battleState.player2.hp);
+
     // Build correction values for each player
     const p1Corrections = {
       touki: p1ToukiCorr,
       rng: p1RngCorr,
       balance: p1BalCorr,
-      lowHp: 1.0, // TODO: Implement low HP bonus in future
+      lowHp: p1LowHpCorr,
     };
     const p2Corrections = {
       touki: p2ToukiCorr,
       rng: p2RngCorr,
       balance: p2BalCorr,
-      lowHp: 1.0, // TODO: Implement low HP bonus in future
+      lowHp: p2LowHpCorr,
     };
 
-    // Calculate judgments
-    const p1Result = this.combat.calculateJudgment(p1Stats, p2Stats, isP1First);
-    const p2Result = this.combat.calculateJudgment(p2Stats, p1Stats, !isP1First);
+    // Determine initiative states
+    const p1Initiative = {
+      isSecond: !isP1First,
+      isCompleteSecond: false, // TODO: Implement complete second detection
+    };
+    const p2Initiative = {
+      isSecond: isP1First,
+      isCompleteSecond: false, // TODO: Implement complete second detection
+    };
+
+    // Calculate judgments with real combat calculation
+    const p1Result = this.combat.calculateJudgment(
+      p1Stats,              // Attacker stats
+      p2Stats,              // Defender stats
+      p1Corrections,        // Attacker corrections
+      p2Corrections,        // Defender corrections
+      p1CharStats,          // Attacker character stats
+      p2CharStats,          // Defender character stats
+      p1Initiative,         // Initiative state
+      this.battleState.player1.hp,
+      this.battleState.player2.hp
+    );
+
+    const p2Result = this.combat.calculateJudgment(
+      p2Stats,              // Attacker stats
+      p1Stats,              // Defender stats
+      p2Corrections,        // Attacker corrections
+      p1Corrections,        // Defender corrections
+      p2CharStats,          // Attacker character stats
+      p1CharStats,          // Defender character stats
+      p2Initiative,         // Initiative state
+      this.battleState.player2.hp,
+      this.battleState.player1.hp
+    );
 
     // Calculate damage with real damage calculation system
     // P1 takes damage from P2's attack
