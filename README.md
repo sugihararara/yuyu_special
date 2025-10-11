@@ -61,6 +61,7 @@ src/
 - **[STATUS.md](./STATUS.md)** - Current development status
 - **[IMPLEMENTATION_PLAN.md](./docs/IMPLEMENTATION_PLAN.md)** - Detailed implementation roadmap
 - **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** - Code architecture & design principles
+- **[ISSUES_AND_INVESTIGATIONS.md](./docs/ISSUES_AND_INVESTIGATIONS.md)** - 🔍 Active issues & technical investigations
 
 ### Specifications
 - **`docs/spec/ui/`** - UI element specifications
