@@ -18,7 +18,7 @@
 | **Touki System** | ✅ Done | **Phase 2.3 - Real non-linear scaling!** |
 | **Balance System** | ✅ Done | **Phase 2.4 - Real knockdown mechanics!** |
 | Combat calculations | ⏸️ Not Started | Phase 2.5 |
-| Damage calculations | ⏸️ Not Started | Phase 2.6 |
+| **Damage Calculations** | ✅ Done | **Phase 2.6 - Real damage formulas!** |
 | Motion frame timing | ⏸️ Not Started | Phase 3.1 |
 
 ## Phase 2: Local Play
@@ -59,13 +59,26 @@
 - ❌ Blocked
 
 ## Current Focus
-**Phase 2.4 Complete!** ✅ Balance System implemented with real knockdown mechanics!
+**Phase 2.6 Complete!** ✅ Damage Calculation implemented with real damage formulas!
 
 Next: Phase 2.5 - Combat Calculation (full correction pipeline)
 
-## Latest Milestone (2025-10-11) - Phase 2.4 Complete! ⚖️
+## Latest Milestone (2025-10-11) - Phase 2.6 Complete! 💥
 
-### Phase 2.4: Balance System (Just Completed!)
+### Phase 2.6: Damage Calculation System (Just Completed!)
+- ✅ Created DamageCalculation.ts - Real damage formulas
+- ✅ Replaced MockDamage in BattleFlow
+- ✅ Full damage pipeline: Base × Touki × RNG × Balance × Defense × Hit type
+- ✅ HP damage multipliers: Direct 100%, Graze 25%, Block 37.5%
+- ✅ Balance damage multipliers: Direct 100%, Graze 50%
+- ✅ Defense stats from character data (14.5% to 25.8% multipliers)
+- ✅ Fractional damage accumulator system
+- ✅ DoT (damage over time) effect support
+- ✅ Double KO tiebreaker logic
+- ✅ Special damage cases (graze to 0 HP, zero-damage moves)
+- 💥 **Damage now calculates exactly like the original Super Famicom game!**
+
+### Phase 2.4: Balance System
 - ✅ Created BalanceSystem.ts - Real balance corrections
 - ✅ Replaced MockBalance in BattleFlow
 - ✅ Uses 256-level lookup table (0-255 balance values)
@@ -121,14 +134,21 @@ Next: Phase 2.5 - Combat Calculation (full correction pipeline)
 - ✅ **Initiative system!** Shows first/second player with input lamps
 - 🎮 Click "Run Battle Test" button to see battles on the actual UI!
 
-## Files Created (Phase 1)
-**Core Logic:**
-- `src/logic/BattleFlow.ts` - Main battle orchestrator (417 lines)
-- `src/logic/mocks/MockRNG.ts` - Mock random number generator
-- `src/logic/mocks/MockTouki.ts` - Mock touki system
-- `src/logic/mocks/MockBalance.ts` - Mock balance system
-- `src/logic/mocks/MockCombat.ts` - Mock combat calculation
-- `src/logic/mocks/MockDamage.ts` - Mock damage calculation
+## Files Created
+**Phase 2 - Real Systems:**
+- `src/logic/RNGSystem.ts` - Real random number generation (Phase 2.1)
+- `src/logic/CharacterStatsSystem.ts` - Real character data loading (Phase 2.2)
+- `src/logic/ToukiSystem.ts` - Real touki corrections (Phase 2.3)
+- `src/logic/BalanceSystem.ts` - Real balance corrections (Phase 2.4)
+- `src/logic/DamageCalculation.ts` - Real damage calculation (Phase 2.6)
+
+**Phase 1 - Core Architecture:**
+- `src/logic/BattleFlow.ts` - Main battle orchestrator
+- `src/logic/mocks/MockRNG.ts` - Mock random number generator (replaced)
+- `src/logic/mocks/MockTouki.ts` - Mock touki system (replaced)
+- `src/logic/mocks/MockBalance.ts` - Mock balance system (replaced)
+- `src/logic/mocks/MockCombat.ts` - Mock combat calculation (still in use)
+- `src/logic/mocks/MockDamage.ts` - Mock damage calculation (replaced)
 
 **Integration:**
 - Updated `src/game.ts` - Added battle test button and integration (+147 lines)

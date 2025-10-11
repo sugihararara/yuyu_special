@@ -25,7 +25,7 @@ import { BalanceSystem } from './BalanceSystem';
 
 // Mock systems (temporary - will be replaced in Phase 2)
 import { MockCombat } from './mocks/MockCombat';
-import { MockDamage } from './mocks/MockDamage';
+import { DamageCalculation } from './DamageCalculation';
 
 /**
  * Turn result returned to UI/game loop
@@ -48,7 +48,7 @@ export class BattleFlow {
   private touki: ToukiSystem;                   // ✅ Phase 2.3 - Real Touki System
   private balance: BalanceSystem;               // ✅ Phase 2.4 - Real Balance System
   private combat: MockCombat;                   // TODO: Phase 2.5
-  private damage: MockDamage;                   // TODO: Phase 2.6
+  private damage: DamageCalculation;            // ✅ Phase 2.6 - Real Damage System
 
   constructor(
     player1CharacterId: string,
@@ -68,7 +68,7 @@ export class BattleFlow {
     this.touki = new ToukiSystem();                   // ✅ Real implementation
     this.balance = new BalanceSystem();               // ✅ Real implementation
     this.combat = new MockCombat();
-    this.damage = new MockDamage();
+    this.damage = new DamageCalculation();            // ✅ Real implementation
   }
 
   /**
@@ -343,9 +343,10 @@ export class BattleFlow {
   // ==================== Mock Methods (temporary) ====================
 
   /**
-   * TEMPORARY: Mock battle outcome
-   * Now uses REAL character stats! (Phase 2.2)
-   * Still uses mock combat/damage calculations (will be replaced in Phase 2.5/2.6)
+   * Mock battle outcome (partially real now!)
+   * ✅ Uses REAL character stats! (Phase 2.2)
+   * ✅ Uses REAL damage calculation! (Phase 2.6)
+   * Still uses mock combat calculations (will be replaced in Phase 2.5)
    */
   private mockBattleOutcome(): BattleOutcome {
     const isP1First = this.battleState.firstPlayer === 1;
@@ -373,49 +374,51 @@ export class BattleFlow {
     const p1BalCorr = this.balance.getCorrection(this.battleState.player1.balance);
     const p2BalCorr = this.balance.getCorrection(this.battleState.player2.balance);
 
-    // Apply corrections to stats
-    const p1Power = this.combat.applyCorrections(
-      p1Stats.power,
-      p1ToukiCorr,
-      p1RngCorr,
-      p1BalCorr
-    );
-    const p2Power = this.combat.applyCorrections(
-      p2Stats.power,
-      p2ToukiCorr,
-      p2RngCorr,
-      p2BalCorr
-    );
+    // Get character defense stats
+    const p1CharStats = this.characterStats.getCharacterStats(p1CharId as any);
+    const p2CharStats = this.characterStats.getCharacterStats(p2CharId as any);
 
-    const p1BalDrain = this.combat.applyCorrections(
-      p1Stats.balanceDrain,
-      p1ToukiCorr,
-      p1RngCorr,
-      p1BalCorr
-    );
-    const p2BalDrain = this.combat.applyCorrections(
-      p2Stats.balanceDrain,
-      p2ToukiCorr,
-      p2RngCorr,
-      p2BalCorr
-    );
+    // Build correction values for each player
+    const p1Corrections = {
+      touki: p1ToukiCorr,
+      rng: p1RngCorr,
+      balance: p1BalCorr,
+      lowHp: 1.0, // TODO: Implement low HP bonus in future
+    };
+    const p2Corrections = {
+      touki: p2ToukiCorr,
+      rng: p2RngCorr,
+      balance: p2BalCorr,
+      lowHp: 1.0, // TODO: Implement low HP bonus in future
+    };
 
     // Calculate judgments
     const p1Result = this.combat.calculateJudgment(p1Stats, p2Stats, isP1First);
     const p2Result = this.combat.calculateJudgment(p2Stats, p1Stats, !isP1First);
 
-    // Calculate damage
+    // Calculate damage with real damage calculation system
+    // P1 takes damage from P2's attack
     const p1Dmg = this.damage.calculateDamage(
-      p2Power,
-      p2BalDrain,
-      p2Result,
-      this.battleState.player1.hp
+      p2Stats.power,           // Base power from P2's move
+      p2Stats.balanceDrain,     // Base balance drain from P2's move
+      p2Corrections,           // P2's corrections (attacker)
+      p2Result,                 // P2's judgment result
+      p1CharStats,             // P1's defense stats (defender)
+      'player1',               // Defender ID for accumulator
+      this.battleState.player1.hp,
+      this.battleState.player1.balance
     );
+
+    // P2 takes damage from P1's attack
     const p2Dmg = this.damage.calculateDamage(
-      p1Power,
-      p1BalDrain,
-      p1Result,
-      this.battleState.player2.hp
+      p1Stats.power,           // Base power from P1's move
+      p1Stats.balanceDrain,     // Base balance drain from P1's move
+      p1Corrections,           // P1's corrections (attacker)
+      p1Result,                 // P1's judgment result
+      p2CharStats,             // P2's defense stats (defender)
+      'player2',               // Defender ID for accumulator
+      this.battleState.player2.hp,
+      this.battleState.player2.balance
     );
 
     return {
