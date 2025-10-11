@@ -49,10 +49,12 @@ export interface InitiativeState {
  * Base → Touki × RNG × Balance × LowHP × Initiative × Special → Judgment
  */
 export class CombatCalculation {
-  // Judgment thresholds (in 256-based system)
-  private readonly DIRECT_HIT_THRESHOLD = 192;    // 75% success needed
-  private readonly GRAZE_THRESHOLD = 128;         // 50% success needed
-  private readonly EVADE_THRESHOLD = 64;          // 25% success needed
+  // Judgment thresholds (relative to corrected stats)
+  // These thresholds work with stats after all corrections are applied
+  // Based on typical corrected stat ranges of 20-100
+  private readonly DIRECT_HIT_THRESHOLD = 30;     // Large advantage needed
+  private readonly GRAZE_THRESHOLD = 5;           // Small advantage needed
+  private readonly EVADE_THRESHOLD = -15;         // Small disadvantage
 
   // Initiative penalties
   private readonly SECOND_PENALTY = 0.9;          // ~10% reduction
