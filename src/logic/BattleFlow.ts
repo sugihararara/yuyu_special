@@ -21,9 +21,9 @@ import type { PlayerTurnInput } from '../types/PlayerInput';
 import { RNGSystem } from './RNGSystem';
 import { CharacterStatsSystem } from './CharacterStatsSystem';
 import { ToukiSystem } from './ToukiSystem';
+import { BalanceSystem } from './BalanceSystem';
 
 // Mock systems (temporary - will be replaced in Phase 2)
-import { MockBalance } from './mocks/MockBalance';
 import { MockCombat } from './mocks/MockCombat';
 import { MockDamage } from './mocks/MockDamage';
 
@@ -46,7 +46,7 @@ export class BattleFlow {
   private rng: RNGSystem;                       // ✅ Phase 2.1 - Real RNG System
   private characterStats: CharacterStatsSystem; // ✅ Phase 2.2 - Real Character Stats
   private touki: ToukiSystem;                   // ✅ Phase 2.3 - Real Touki System
-  private balance: MockBalance;                 // TODO: Phase 2.4
+  private balance: BalanceSystem;               // ✅ Phase 2.4 - Real Balance System
   private combat: MockCombat;                   // TODO: Phase 2.5
   private damage: MockDamage;                   // TODO: Phase 2.6
 
@@ -66,7 +66,7 @@ export class BattleFlow {
     this.rng = new RNGSystem();                       // ✅ Real implementation
     this.characterStats = new CharacterStatsSystem(); // ✅ Real implementation
     this.touki = new ToukiSystem();                   // ✅ Real implementation
-    this.balance = new MockBalance();
+    this.balance = new BalanceSystem();               // ✅ Real implementation
     this.combat = new MockCombat();
     this.damage = new MockDamage();
   }

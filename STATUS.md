@@ -16,7 +16,7 @@
 | **RNG System** | ✅ Done | **Phase 2.1 - Real random corrections!** |
 | **Character Stats System** | ✅ Done | **Phase 2.2 - Real character data!** |
 | **Touki System** | ✅ Done | **Phase 2.3 - Real non-linear scaling!** |
-| Balance system | ⏸️ Not Started | Phase 2.4 |
+| **Balance System** | ✅ Done | **Phase 2.4 - Real knockdown mechanics!** |
 | Combat calculations | ⏸️ Not Started | Phase 2.5 |
 | Damage calculations | ⏸️ Not Started | Phase 2.6 |
 | Motion frame timing | ⏸️ Not Started | Phase 3.1 |
@@ -59,13 +59,25 @@
 - ❌ Blocked
 
 ## Current Focus
-**Phase 2.3 Complete!** ✅ Touki System implemented with real non-linear scaling!
+**Phase 2.4 Complete!** ✅ Balance System implemented with real knockdown mechanics!
 
-Next: Phase 2.4 - Balance System (use real lookup table)
+Next: Phase 2.5 - Combat Calculation (full correction pipeline)
 
-## Latest Milestone (2025-10-11) - Phase 2.3 Complete! 💪
+## Latest Milestone (2025-10-11) - Phase 2.4 Complete! ⚖️
 
-### Phase 2.3: Touki System (Just Completed!)
+### Phase 2.4: Balance System (Just Completed!)
+- ✅ Created BalanceSystem.ts - Real balance corrections
+- ✅ Replaced MockBalance in BattleFlow
+- ✅ Uses 256-level lookup table (0-255 balance values)
+- ✅ Non-linear scaling: 0 balance = 100%, 255 balance = 68.4% performance (minimum)
+- ✅ Knockdown detection (balance ≥ 256)
+- ✅ Balance state tracking (normal/staggered/knockdown)
+- ✅ Recovery frame calculation with button mashing
+- ✅ Forced recovery detection
+- ✅ Graze damage reduction (×1/2)
+- ⚖️ **Balance now scales exactly like the original Super Famicom game!**
+
+### Phase 2.3: Touki System
 - ✅ Created ToukiSystem.ts - Real touki corrections
 - ✅ Replaced MockTouki in BattleFlow
 - ✅ Uses 97-level lookup table (0-96 touki values)

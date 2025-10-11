@@ -107,18 +107,21 @@ Replace mocks one by one, testing after each replacement.
 
 **Test:** ✅ Integrated with BattleFlow - real touki scaling applied!
 
-### Step 2.4: Balance System ⏸️
+### Step 2.4: Balance System ✅ COMPLETE
 **File:** `src/logic/BalanceSystem.ts`
 **Spec:** `docs/spec/logic/04_balance_system.md`
 **Replaces:** `MockBalance.ts`
 **Uses:** `src/data/lookupTables/balanceTable.ts` (already exists!)
 **Key features:**
-- Balance damage accumulation (0-255)
-- Knockdown at 256
-- Balance correction to success/evasion rates
-- Recovery mechanics (button mashing)
+- ✅ Balance damage accumulation (0-255)
+- ✅ Knockdown at 256
+- ✅ Balance correction to success/evasion rates (256-level lookup)
+- ✅ Recovery mechanics (button mashing, 4F per press)
+- ✅ Balance state tracking (normal/staggered/knockdown)
+- ✅ Forced recovery detection
+- ✅ Graze damage reduction
 
-**Test:** Deal balance damage, verify knockdown occurs, test recovery
+**Test:** ✅ Integrated with BattleFlow - real balance scaling applied!
 
 ### Step 2.5: Combat Calculation System ⏸️
 **File:** `src/logic/CombatCalculation.ts`
@@ -268,7 +271,7 @@ All Phase 1 goals exceeded! Delivered:
 | RNG System | ✅ Done | `RNGSystem.ts` | Phase 2.1 ✅ |
 | Character Stats | ✅ Done | `CharacterStatsSystem.ts` | Phase 2.2 ✅ |
 | Touki System | ✅ Done | `ToukiSystem.ts` | Phase 2.3 ✅ |
-| Balance System | ⏸️ Not Started | `BalanceSystem.ts` | Phase 2.4 |
+| Balance System | ✅ Done | `BalanceSystem.ts` | Phase 2.4 ✅ |
 | Combat Calculation | ⏸️ Not Started | `CombatCalculation.ts` | Phase 2.5 |
 | Damage Calculation | ⏸️ Not Started | `DamageCalculation.ts` | Phase 2.6 |
 | Motion Frame | ⏸️ Not Started | `MotionFrameSystem.ts` | Phase 3.1 |
